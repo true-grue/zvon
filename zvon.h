@@ -102,6 +102,7 @@ double noise_next(struct noise_state *s, double freq);
 
 typedef void (*box_change_func)(void *state, int param, int elem, double val);
 typedef double (*box_next_func)(void *state, double x);
+typedef void (*box_init_func)(void *state);
 
 struct box_state {
     box_change_func change;
@@ -109,7 +110,12 @@ struct box_state {
     void *state;
 };
 
-typedef void (*box_new_func)(struct box_state *box);
+struct box_def {
+    box_change_func change;
+    box_next_func next;
+    int state_size;
+    box_init_func init;
+};
 
 struct chan_state {
     int is_on;
@@ -122,7 +128,7 @@ struct chan_state {
 void chan_init(struct chan_state *c);
 void chan_set(struct chan_state *c, int is_on, double vol, double pan);
 void chan_free(struct chan_state *c);
-void chan_push(struct chan_state *c, box_new_func func);
+void chan_push(struct chan_state *c, struct box_def *def);
 void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
 #endif

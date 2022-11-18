@@ -118,12 +118,12 @@ double test_synth_next(struct test_synth_state *s, double x) {
     return square(phasor_next(&s->p, s->freq), 0.5);
 }
 
-void test_box_new(struct box_state *box) {
-    box->change = (box_change_func) test_synth_change;
-    box->next = (box_next_func) test_synth_next;
-    box->state = malloc(sizeof(struct test_synth_state));
-    test_synth_init(box->state);
-}
+struct box_def test_box_def = {
+    .change = (box_change_func) test_synth_change,
+    .next = (box_next_func) test_synth_next,
+    .state_size = sizeof(struct test_synth_state),
+    .init = (box_init_func) test_synth_init
+};
 
 void test_mix(void) {
     double correct[] = {
@@ -138,8 +138,8 @@ void test_mix(void) {
     }
     chan_set(&channels[0], 1, 1, -1);
     chan_set(&channels[1], 1, 1, 1);
-    chan_push(&channels[0], test_box_new);
-    chan_push(&channels[1], test_box_new);
+    chan_push(&channels[0], &test_box_def);
+    chan_push(&channels[1], &test_box_def);
     struct box_state *box;
     box = &channels[0].stack[0];
     box->change(box->state, 0, 0, 440);
