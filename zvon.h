@@ -107,8 +107,8 @@ struct box_state {
 struct box_def {
     box_change_func change;
     box_next_func next;
-    int state_size;
     box_init_func init;
+    int state_size;
 };
 
 struct chan_state {
