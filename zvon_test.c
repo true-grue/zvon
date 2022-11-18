@@ -1,5 +1,6 @@
 /* Author: Peter Sovietov */
 
+#include <math.h>
 #include <assert.h>
 #include "zvon.h"
 

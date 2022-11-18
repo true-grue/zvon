@@ -3,9 +3,6 @@
 #ifndef ZVON_H
 #define ZVON_H
 
-#include <math.h>
-#include <stdlib.h>
-
 double midi_freq(int m);
 double sec(double t);
 double limit(double x, double low, double high);

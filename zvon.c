@@ -1,5 +1,7 @@
 /* Author: Peter Sovietov */
 
+#include <math.h>
+#include <stdlib.h>
 #include "zvon_platform.h"
 #include "zvon.h"
 
