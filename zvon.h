@@ -98,7 +98,6 @@ struct noise_state {
 void noise_init(struct noise_state *s, int bits, int *taps, int taps_size);
 double noise_next(struct noise_state *s, double freq);
 
-#define MAX_CHANNELS 32
 #define MAX_BOXES 8
 
 typedef void (*box_change_func)(void *state, int param, int elem, double val);
