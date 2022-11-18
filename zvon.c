@@ -218,7 +218,7 @@ void chan_push(struct chan_state *c, struct box_def *def) {
     struct box_state *box = &c->stack[c->stack_depth];
     box->change = def->change;
     box->next = def->next;
-    box->state = malloc(def->state_size);
+    box->state = calloc(1, def->state_size);
     def->init(box->state);
     c->stack_depth++;
 }
