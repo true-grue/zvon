@@ -4,7 +4,7 @@
 #include "zvon.h"
 
 double midi_freq(int m) {
-    return 440 * pow(2, ((m - 69) * (1 / 12.)));
+    return 440 * pow(2, (m - 69) * (1 / 12.));
 }
 
 double sec(double t) {
