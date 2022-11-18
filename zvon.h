@@ -5,7 +5,6 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "zvon_platform.h"
 
 double midi_freq(int m);
 double sec(double t);
@@ -51,7 +50,7 @@ double env_next_head(struct env_state *s, env_func func);
 double env_next(struct env_state *s);
 double seq_next(struct env_state *s);
 
-#define MAX_DELAY_SIZE SR
+#define MAX_DELAY_SIZE 65536
 
 struct delay_state {
     double buf[MAX_DELAY_SIZE];
