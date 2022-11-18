@@ -198,28 +198,30 @@ double noise_next(struct noise_state *s, double freq) {
 }
 
 void chan_init(struct chan_state *c) {
-    c->is_on = 0;
-    c->vol = 0;
-    c->pan = 0;
+    chan_set(c, 0, 0, 0);
     c->stack_depth = 0;
 }
 
-void chan_reset(struct chan_state *c, int is_on, double vol, double pan) {
+void chan_set(struct chan_state *c, int is_on, double vol, double pan) {
     c->is_on = is_on;
     c->vol = vol;
     c->pan = pan;
-    while (c->stack_depth) {
-        c->stack_depth--;
-        free(c->stack[c->stack_depth].state);
-    }
 }
 
-void push_box(struct chan_state *c, box_new_func func) {
+void chan_free(struct chan_state *c) {
+    for (int i = 0; i < c->stack_depth; i++) {
+        free(c->stack[i].state);
+        c->stack[i].state = NULL;
+    }
+    c->stack_depth = 0;
+}
+
+void chan_push(struct chan_state *c, box_new_func func) {
     func(&c->stack[c->stack_depth]);
     c->stack_depth++;
 }
 
-static double process_boxes(struct box_state *stack, int stack_depth) {
+static double chan_process(struct box_state *stack, int stack_depth) {
     double y = 0;
     for (int i = 0; i < stack_depth; i++) {
         y = stack[i].next(stack[i].state, y);
@@ -227,13 +229,13 @@ static double process_boxes(struct box_state *stack, int stack_depth) {
     return y;
 }
 
-void mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples) {
+void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples) {
     for (; num_samples; num_samples--, samples += 2) {
         double left = 0, right = 0;
         for (int i = 0; i < num_channels; i++) {
             struct chan_state *chan = &channels[i];
             if (chan->is_on) {
-                double y = process_boxes(chan->stack, chan->stack_depth);
+                double y = chan_process(chan->stack, chan->stack_depth);
                 double pan = (chan->pan + 1) * 0.5;
                 left += y * (1 - pan);
                 right += y * pan;

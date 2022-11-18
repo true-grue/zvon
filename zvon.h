@@ -120,8 +120,9 @@ struct chan_state {
 };
 
 void chan_init(struct chan_state *c);
-void chan_reset(struct chan_state *c, int is_on, double vol, double pan);
-void push_box(struct chan_state *c, box_new_func func);
-void mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
+void chan_set(struct chan_state *c, int is_on, double vol, double pan);
+void chan_free(struct chan_state *c);
+void chan_push(struct chan_state *c, box_new_func func);
+void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
 #endif

@@ -136,17 +136,17 @@ void test_mix(void) {
     for (int i = 0; i < 2; i++) {
         chan_init(&channels[i]);
     }
-    chan_reset(&channels[0], 1, 1, -1);
-    chan_reset(&channels[1], 1, 1, 1);
-    push_box(&channels[0], test_box_new);
-    push_box(&channels[1], test_box_new);
+    chan_set(&channels[0], 1, 1, -1);
+    chan_set(&channels[1], 1, 1, 1);
+    chan_push(&channels[0], test_box_new);
+    chan_push(&channels[1], test_box_new);
     struct box_state *box;
     box = &channels[0].stack[0];
     box->change(box->state, 0, 0, 440);
     box = &channels[1].stack[0];
     box->change(box->state, 0, 0, 440 * 1.5);
     double samples[16 * 2] = {0};
-    mix(channels, 2, 1, samples, 16);
+    chan_mix(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {
         assert(round(100000 * samples[i]) == correct[i]);
     }
