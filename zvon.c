@@ -214,7 +214,7 @@ void chan_reset(struct chan_state *c, int is_on, double vol, double pan) {
     }
 }
 
-void push_box(struct chan_state *c, box_init_func func) {
+void push_box(struct chan_state *c, box_new_func func) {
     func(&c->stack[c->stack_depth]);
     c->stack_depth++;
 }

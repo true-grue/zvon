@@ -109,7 +109,7 @@ struct box_state {
     void *state;
 };
 
-typedef void (*box_init_func)(struct box_state *box);
+typedef void (*box_new_func)(struct box_state *box);
 
 struct chan_state {
     int is_on;
@@ -121,7 +121,7 @@ struct chan_state {
 
 void chan_init(struct chan_state *c);
 void chan_reset(struct chan_state *c, int is_on, double vol, double pan);
-void push_box(struct chan_state *c, box_init_func func);
+void push_box(struct chan_state *c, box_new_func func);
 void mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
 #endif
