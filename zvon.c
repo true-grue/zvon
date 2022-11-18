@@ -1,6 +1,5 @@
 /* Author: Peter Sovietov */
 
-#include <math.h>
 #include "zvon.h"
 
 double midi_freq(int m) {
@@ -19,7 +18,7 @@ double lerp(double a, double b, double x) {
     return a * (1 - x) + b * x;
 }
 
-double hz(double t, double freq) {
+double herz(double t, double freq) {
     return (2 * PI / SR) * freq * t;
 }
 
@@ -189,7 +188,7 @@ void noise_init(struct noise_state *s, int bits, int *taps, int taps_size) {
 }
 
 double noise_next(struct noise_state *s, double freq) {
-    s->phase += freq * (1 / SR);
+    s->phase += freq * (1. / SR);
     if (s->phase >= 1) {
         s->phase -= 1;
         s->state = lfsr(s->state, s->bits, s->taps, s->taps_size);

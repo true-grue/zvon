@@ -5,18 +5,13 @@
 
 #include <math.h>
 #include <stdlib.h>
-
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
-#define SR 44100.
-#define PI 3.14159265358979323846
+#include "zvon_platform.h"
 
 double midi_freq(int m);
 double sec(double t);
 double limit(double x, double low, double high);
 double lerp(double a, double b, double x);
-double hz(double t, double freq);
+double herz(double t, double freq);
 double dsf(double phase, double mod, double width);
 double dsf2(double phase, double mod, double width);
 double saw(double phase, double width);
@@ -56,7 +51,7 @@ double env_next_head(struct env_state *s, env_func func);
 double env_next(struct env_state *s);
 double seq_next(struct env_state *s);
 
-#define MAX_DELAY_SIZE ((int) SR)
+#define MAX_DELAY_SIZE SR
 
 struct delay_state {
     double buf[MAX_DELAY_SIZE];

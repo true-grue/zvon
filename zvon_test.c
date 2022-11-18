@@ -1,6 +1,5 @@
 /* Author: Peter Sovietov */
 
-#include <stdio.h>
 #include <assert.h>
 #include "zvon.h"
 
@@ -13,9 +12,9 @@ void test_basic_funcs(void) {
     assert(lerp(1, 10, 0) == 1);
     assert(lerp(1, 10, 1) == 10);
     assert(lerp(1, 10, 0.5) == 5.5);
-    assert(hz(sec(1), 100) == 628.3185307179587);
-    assert(dsf(hz(sec(0.001), 200), 2, 0.5) == 0.6933356074226505);
-    assert(dsf2(hz(sec(0.001), 200), 2, 0.5) == 0.3466678037113253);
+    assert(herz(sec(1), 100) == 628.3185307179587);
+    assert(dsf(herz(sec(0.001), 200), 2, 0.5) == 0.6933356074226505);
+    assert(dsf2(herz(sec(0.001), 200), 2, 0.5) == 0.3466678037113253);
     assert(pwm(100, 0.5, 0.8) == -1.1859547865063869);
     unsigned int state = 1;
     for (int i = 0; i < 16; i++) {
