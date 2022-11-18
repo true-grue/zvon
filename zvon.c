@@ -21,7 +21,7 @@ double lerp(double a, double b, double x) {
     return a * (1 - x) + b * x;
 }
 
-double herz(double t, double freq) {
+double hertz(double t, double freq) {
     return (2 * PI / SR) * freq * t;
 }
 

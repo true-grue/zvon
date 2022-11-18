@@ -7,7 +7,7 @@ double midi_note(int m);
 double sec(double t);
 double limit(double x, double low, double high);
 double lerp(double a, double b, double x);
-double herz(double t, double freq);
+double hertz(double t, double freq);
 double dsf(double phase, double mod, double width);
 double dsf2(double phase, double mod, double width);
 double saw(double phase, double width);
