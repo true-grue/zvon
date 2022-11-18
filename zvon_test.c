@@ -108,9 +108,10 @@ void test_synth_init(struct test_synth_state *s) {
 }
 
 void test_synth_change(struct test_synth_state *s, int param, int elem, double val) {
-    (void) param;
     (void) elem;
-    s->freq = val;
+    if (param == BOX_NOTE_ON) {
+        s->freq = val;
+    }
 }
 
 double test_synth_next(struct test_synth_state *s, double x) {
@@ -142,9 +143,9 @@ void test_mix(void) {
     chan_push(&channels[1], &test_box_def);
     struct box_state *box;
     box = &channels[0].stack[0];
-    box->change(box->state, 0, 0, 440);
+    box->change(box->state, BOX_NOTE_ON, 0, 440);
     box = &channels[1].stack[0];
-    box->change(box->state, 0, 0, 440 * 1.5);
+    box->change(box->state, BOX_NOTE_ON, 0, 440 * 1.5);
     double samples[16 * 2] = {0};
     chan_mix(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {
