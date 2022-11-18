@@ -219,7 +219,7 @@ void push_box(struct chan_state *c, box_init_func func) {
     c->stack_depth++;
 }
 
-double process_boxes(struct box_state *stack, int stack_depth) {
+static double process_boxes(struct box_state *stack, int stack_depth) {
     double y = 0;
     for (int i = 0; i < stack_depth; i++) {
         y = stack[i].next(stack[i].state, y);
