@@ -5,7 +5,7 @@
 #include "zvon.h"
 
 void test_basic_funcs(void) {
-    assert(midi_freq(69) == 440);
+    assert(midi_note(69) == 440);
     assert(sec(0.5) == 22050);
     assert(limit(0.5, 0, 1) == 0.5);
     assert(limit(10, 0, 1) == 1);

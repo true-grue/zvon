@@ -3,7 +3,7 @@
 #ifndef ZVON_H
 #define ZVON_H
 
-double midi_freq(int m);
+double midi_note(int m);
 double sec(double t);
 double limit(double x, double low, double high);
 double lerp(double a, double b, double x);

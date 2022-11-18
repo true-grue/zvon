@@ -5,7 +5,7 @@
 #include "zvon_platform.h"
 #include "zvon.h"
 
-double midi_freq(int m) {
+double midi_note(int m) {
     return 440 * pow(2, (m - 69) * (1 / 12.));
 }
 
