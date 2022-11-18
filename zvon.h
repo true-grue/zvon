@@ -4,7 +4,7 @@
 #define ZVON_H
 
 double midi_note(int m);
-double sec(double t);
+int sec(double t);
 double limit(double x, double low, double high);
 double lerp(double a, double b, double x);
 double hertz(double t, double freq);
@@ -24,7 +24,7 @@ void phasor_reset(struct phasor_state *s);
 double phasor_next(struct phasor_state *s, double freq);
 
 struct env_state {
-    double *deltas;
+    int *deltas;
     double *levels;
     int size;
     int is_end;
@@ -41,7 +41,7 @@ struct env_state {
 
 typedef double (*env_func)(double a, double b, double x);
 
-void env_init(struct env_state *s, double *deltas, double level_0, double *levels, int size);
+void env_init(struct env_state *s, int *deltas, double level_0, double *levels, int size);
 void env_reset(struct env_state *s);
 double env_next_head(struct env_state *s, env_func func);
 double env_next(struct env_state *s);

@@ -9,8 +9,8 @@ double midi_note(int m) {
     return 440 * pow(2, (m - 69) * (1 / 12.));
 }
 
-double sec(double t) {
-    return (int) (t * SR);
+int sec(double t) {
+    return t * SR;
 }
 
 double limit(double x, double low, double high) {
@@ -71,7 +71,7 @@ double phasor_next(struct phasor_state *s, double freq) {
     return p;
 }
 
-void env_init(struct env_state *s, double *deltas, double level_0, double *levels, int size) {
+void env_init(struct env_state *s, int *deltas, double level_0, double *levels, int size) {
     s->deltas = deltas;
     s->levels = levels;
     s->size = size;

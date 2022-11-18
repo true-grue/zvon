@@ -41,7 +41,7 @@ void test_env(void) {
         0.4, 0.35, 0.3, 0.25
     };
     struct env_state e;
-    double deltas[] = {3, 5, 10};
+    int deltas[] = {3, 5, 10};
     double levels[] = {1, 0.5, 0};
     env_init(&e, deltas, 0, levels, 3);
     for (int i = 0; i < 16; i++) {    
