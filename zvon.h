@@ -26,7 +26,7 @@ double phasor_next(struct phasor_state *s, double freq);
 struct env_state {
     int *deltas;
     double *levels;
-    int size;
+    int env_size;
     int is_end;
     int is_loop;
     int is_full_reset;
@@ -51,7 +51,7 @@ double seq_next(struct env_state *s);
 
 struct delay_state {
     double buf[MAX_DELAY_SIZE];
-    int size;
+    size_t buf_size;
     double level;
     double fb;
     int pos;
@@ -89,8 +89,6 @@ struct noise_state {
 void noise_init(struct noise_state *s, int bits, int *taps, int taps_size);
 double noise_next(struct noise_state *s, double freq);
 
-#define MAX_BOXES 8
-
 typedef void (*box_change_func)(void *state, int param, int elem, double val);
 typedef double (*box_next_func)(void *state, double x);
 typedef void (*box_init_func)(void *state);
@@ -105,15 +103,17 @@ struct box_def {
     box_change_func change;
     box_next_func next;
     box_init_func init;
-    int state_size;
+    size_t state_size;
 };
+
+#define MAX_BOXES 8
 
 struct chan_state {
     int is_on;
     double vol;
     double pan;
     struct box_state stack[MAX_BOXES];
-    int stack_depth;
+    int stack_size;
 };
 
 void chan_init(struct chan_state *c);
@@ -123,9 +123,9 @@ void chan_push(struct chan_state *c, struct box_def *def);
 void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
 enum box_param {
-    BOX_NOTE_ON,
-    BOX_NOTE_OFF,
-    BOX_VOLUME
+    ZVON_NOTE_ON,
+    ZVON_NOTE_OFF,
+    ZVON_VOLUME
 };
 
 #endif
