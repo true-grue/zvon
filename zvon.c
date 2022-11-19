@@ -229,13 +229,13 @@ void chan_push(struct chan_state *c, struct box_proto *proto) {
     }
 }
 
-static void chan_process(struct box_state *stack, int stack_size, double *cl, double *cr) {
+static void chan_process(struct box_state *stack, int stack_size, double *l, double *r) {
     for (int i = 0; i < stack_size; i++) {
         if (stack[i].proto->next_stereo) {
-            stack[i].proto->next_stereo(stack[i].state, cl, cr);
+            stack[i].proto->next_stereo(stack[i].state, l, r);
         } else {
-            *cl = stack[i].proto->next(stack[i].state, *cl);
-            *cr = *cl;
+            *l = stack[i].proto->next(stack[i].state, *l);
+            *r = *l;
         }
     }
 }
@@ -246,11 +246,11 @@ void chan_mix(struct chan_state *channels, int num_channels, double vol, double 
         for (int i = 0; i < num_channels; i++) {
             struct chan_state *chan = &channels[i];
             if (chan->is_on) {
-                double cl = 0, cr = 0;
-                chan_process(chan->stack, chan->stack_size, &cl, &cr);
+                double l = 0, r = 0;
+                chan_process(chan->stack, chan->stack_size, &l, &r);
                 double pan = (chan->pan + 1) * 0.5;
-                left += chan->vol * cl * (1 - pan);
-                right += chan->vol * cr * pan;
+                left += chan->vol * l * (1 - pan);
+                right += chan->vol * r * pan;
             }
         }
         samples[0] = vol * left;
