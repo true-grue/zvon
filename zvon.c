@@ -5,7 +5,7 @@
 #include "zvon_platform.h"
 #include "zvon.h"
 
-double midi_note(int m) {
+double midi_freq(int m) {
     return 440 * pow(2, (m - 69) * (1 / 12.));
 }
 
@@ -223,7 +223,7 @@ void chan_free(struct chan_state *c) {
     c->stack_size = 0;
 }
 
-struct box_state *chan_push(struct chan_state *c, struct box_proto *proto) {
+void *chan_push(struct chan_state *c, struct box_proto *proto) {
     if (c->stack_size < MAX_BOXES) {
         struct box_state *box = &c->stack[c->stack_size];
         box->proto = proto;

@@ -6,7 +6,7 @@
 #include "zvon.h"
 
 void test_basic_funcs(void) {
-    assert(midi_note(69) == 440);
+    assert(midi_freq(69) == 440);
     assert(sec(0.5) == 22050);
     assert(limit(0.5, 0, 1) == 0.5);
     assert(limit(10, 0, 1) == 1);
@@ -110,7 +110,7 @@ void test_synth_init(struct test_synth_state *s) {
 
 void test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
     (void) val2;
-    if (param == ZVON_NOTE_ON) {
+    if (param == ZV_NOTE_ON) {
         s->freq = val1;
     }
 }
@@ -125,9 +125,7 @@ struct box_proto test_box_proto = {
     .state_size = sizeof(struct test_synth_state),
     .init = (box_init_func) test_synth_init,
     .change = (box_change_func) test_synth_change,
-    .next = (box_next_func) test_synth_next,
-    .next_stereo = NULL,
-    .deinit = NULL
+    .next = (box_next_func) test_synth_next
 };
 
 void test_mix(void) {
@@ -145,9 +143,9 @@ void test_mix(void) {
     chan_push(&channels[1], &test_box_proto);
     struct box_state *box;
     box = &channels[0].stack[0];
-    box->proto->change(box->state, ZVON_NOTE_ON, 440, 0);
+    box->proto->change(box->state, ZV_NOTE_ON, 440, 0);
     box = &channels[1].stack[0];
-    box->proto->change(box->state, ZVON_NOTE_ON, 440 * 1.5, 0);
+    box->proto->change(box->state, ZV_NOTE_ON, 440 * 1.5, 0);
     double samples[16 * 2] = {0};
     mix_process(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {
