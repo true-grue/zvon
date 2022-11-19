@@ -212,6 +212,9 @@ void chan_set(struct chan_state *c, int is_on, double vol, double pan) {
 
 void chan_free(struct chan_state *c) {
     for (int i = 0; i < c->stack_size; i++) {
+        if (c->stack[i].proto->deinit) {
+            c->stack[i].proto->deinit(&c->stack[i].state);
+        }
         free(c->stack[i].state);
     }
     c->stack_size = 0;

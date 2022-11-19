@@ -93,6 +93,7 @@ typedef void (*box_change_func)(void *state, int param, double val1, double val2
 typedef double (*box_next_func)(void *state, double l);
 typedef void (*box_next_stereo_func)(void *state, double *l, double *r);
 typedef void (*box_init_func)(void *state);
+typedef void (*box_deinit_func)(void *state);
 
 struct box_state {
     struct box_proto *proto;
@@ -105,6 +106,7 @@ struct box_proto {
     box_next_func next;
     box_next_stereo_func next_stereo;
     box_init_func init;
+    box_deinit_func deinit;
     size_t state_size;
 };
 

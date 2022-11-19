@@ -122,11 +122,12 @@ double test_synth_next(struct test_synth_state *s, double x) {
 
 struct box_proto test_box_proto = {
     .name = "test_synth",
+    .state_size = sizeof(struct test_synth_state),
+    .init = (box_init_func) test_synth_init,
     .change = (box_change_func) test_synth_change,
     .next = (box_next_func) test_synth_next,
     .next_stereo = NULL,
-    .init = (box_init_func) test_synth_init,
-    .state_size = sizeof(struct test_synth_state)
+    .deinit = NULL
 };
 
 void test_mix(void) {
