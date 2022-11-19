@@ -138,9 +138,7 @@ void test_mix(void) {
         86582, 71974, 83382, 69902, 80495, 68369, 77921, 67337
     };
     struct chan_state channels[2];
-    for (int i = 0; i < 2; i++) {
-        chan_init(&channels[i]);
-    }
+    mix_init(channels, 2);
     chan_set(&channels[0], 1, 1, -1);
     chan_set(&channels[1], 1, 1, 1);
     chan_push(&channels[0], &test_box_proto);
@@ -151,7 +149,7 @@ void test_mix(void) {
     box = &channels[1].stack[0];
     box->proto->change(box->state, ZVON_NOTE_ON, 440 * 1.5, 0);
     double samples[16 * 2] = {0};
-    chan_mix(channels, 2, 1, samples, 16);
+    mix_process(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {
         assert(round(100000 * samples[i]) == correct[i]);
     }
