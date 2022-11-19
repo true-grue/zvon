@@ -246,8 +246,8 @@ void chan_mix(struct chan_state *channels, int num_channels, double vol, double 
             if (chan->is_on) {
                 double y = chan_process(chan->stack, chan->stack_size);
                 double pan = (chan->pan + 1) * 0.5;
-                left += y * (1 - pan);
-                right += y * pan;
+                left += y * pan;
+                right += y * (1 - pan);
             }
         }
         samples[0] = vol * left;
