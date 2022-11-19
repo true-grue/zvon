@@ -1,6 +1,7 @@
 /* Author: Peter Sovietov */
 
 #include <math.h>
+#include <stdio.h>
 #include <assert.h>
 #include "zvon.h"
 
@@ -119,10 +120,11 @@ double test_synth_next(struct test_synth_state *s, double x) {
     return square(phasor_next(&s->p, s->freq), 0.5);
 }
 
-struct box_def test_box_def = {
+struct box_proto test_box_proto = {
     .name = "test_synth",
     .change = (box_change_func) test_synth_change,
     .next = (box_next_func) test_synth_next,
+    .next_stereo = NULL,
     .init = (box_init_func) test_synth_init,
     .state_size = sizeof(struct test_synth_state)
 };
@@ -140,13 +142,13 @@ void test_mix(void) {
     }
     chan_set(&channels[0], 1, 1, -1);
     chan_set(&channels[1], 1, 1, 1);
-    chan_push(&channels[0], &test_box_def);
-    chan_push(&channels[1], &test_box_def);
+    chan_push(&channels[0], &test_box_proto);
+    chan_push(&channels[1], &test_box_proto);
     struct box_state *box;
     box = &channels[0].stack[0];
-    box->change(box->state, ZVON_NOTE_ON, 0, 440);
+    box->proto->change(box->state, ZVON_NOTE_ON, 0, 440);
     box = &channels[1].stack[0];
-    box->change(box->state, ZVON_NOTE_ON, 0, 440 * 1.5);
+    box->proto->change(box->state, ZVON_NOTE_ON, 0, 440 * 1.5);
     double samples[16 * 2] = {0};
     chan_mix(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {

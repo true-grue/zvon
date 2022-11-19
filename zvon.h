@@ -90,19 +90,20 @@ void noise_init(struct noise_state *s, int bits, int *taps, int taps_size);
 double noise_next(struct noise_state *s, double freq);
 
 typedef void (*box_change_func)(void *state, int param, int elem, double val);
-typedef double (*box_next_func)(void *state, double x);
+typedef double (*box_next_func)(void *state, double cl);
+typedef double (*box_next_stereo_func)(void *state, double *cl, double *cr);
 typedef void (*box_init_func)(void *state);
 
 struct box_state {
-    box_change_func change;
-    box_next_func next;
+    struct box_proto *proto;
     void *state;
 };
 
-struct box_def {
+struct box_proto {
     char *name;
     box_change_func change;
     box_next_func next;
+    box_next_stereo_func next_stereo;
     box_init_func init;
     size_t state_size;
 };
@@ -120,7 +121,7 @@ struct chan_state {
 void chan_init(struct chan_state *c);
 void chan_set(struct chan_state *c, int is_on, double vol, double pan);
 void chan_free(struct chan_state *c);
-void chan_push(struct chan_state *c, struct box_def *def);
+void chan_push(struct chan_state *c, struct box_proto *proto);
 void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
 enum {
