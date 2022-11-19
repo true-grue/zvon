@@ -108,10 +108,10 @@ void test_synth_init(struct test_synth_state *s) {
     s->freq = 0;
 }
 
-void test_synth_change(struct test_synth_state *s, int param, int elem, double val) {
-    (void) elem;
+void test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
+    (void) val2;
     if (param == ZVON_NOTE_ON) {
-        s->freq = val;
+        s->freq = val1;
     }
 }
 
@@ -146,9 +146,9 @@ void test_mix(void) {
     chan_push(&channels[1], &test_box_proto);
     struct box_state *box;
     box = &channels[0].stack[0];
-    box->proto->change(box->state, ZVON_NOTE_ON, 0, 440);
+    box->proto->change(box->state, ZVON_NOTE_ON, 440, 0);
     box = &channels[1].stack[0];
-    box->proto->change(box->state, ZVON_NOTE_ON, 0, 440 * 1.5);
+    box->proto->change(box->state, ZVON_NOTE_ON, 440 * 1.5, 0);
     double samples[16 * 2] = {0};
     chan_mix(channels, 2, 1, samples, 16);
     for (int i = 0; i < 16; i++) {
