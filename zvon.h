@@ -100,6 +100,7 @@ struct box_state {
 };
 
 struct box_def {
+    char *name;
     box_change_func change;
     box_next_func next;
     box_init_func init;

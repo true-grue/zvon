@@ -120,18 +120,19 @@ double test_synth_next(struct test_synth_state *s, double x) {
 }
 
 struct box_def test_box_def = {
+    .name = "test_synth",
     .change = (box_change_func) test_synth_change,
     .next = (box_next_func) test_synth_next,
-    .state_size = sizeof(struct test_synth_state),
-    .init = (box_init_func) test_synth_init
+    .init = (box_init_func) test_synth_init,
+    .state_size = sizeof(struct test_synth_state)
 };
 
 void test_mix(void) {
     double correct[] = {
-        0, 0, 52626, 36445, 87663, 66688, 103106, 87663,
-        105989, 99749, 102887, 105081, 97593, 105989, 91904, 104300,
-        86582, 101247, 81899, 97593, 77921, 93784, 74629, 90070,
-        71974, 86582, 69902, 83382, 68369, 80495, 67337, 77921
+        0, 0, 36445, 52626, 66688, 87663, 87663, 103106,
+        99749, 105989, 105081, 102887, 105989, 97593, 104300, 91904,
+        101247, 86582, 97593, 81899, 93784, 77921, 90070, 74629,
+        86582, 71974, 83382, 69902, 80495, 68369, 77921, 67337
     };
     struct chan_state channels[2];
     for (int i = 0; i < 2; i++) {
