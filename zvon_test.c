@@ -108,11 +108,12 @@ void test_synth_init(struct test_synth_state *s) {
     s->freq = 0;
 }
 
-void test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
+double test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
     (void) val2;
     if (param == ZVON_NOTE_ON) {
         s->freq = val1;
     }
+    return 0;
 }
 
 double test_synth_next(struct test_synth_state *s, double x) {
