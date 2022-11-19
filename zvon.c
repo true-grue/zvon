@@ -220,7 +220,7 @@ void chan_free(struct chan_state *c) {
     c->stack_size = 0;
 }
 
-void chan_push(struct chan_state *c, struct box_proto *proto) {
+struct box_state *chan_push(struct chan_state *c, struct box_proto *proto) {
     if (c->stack_size < MAX_BOXES) {
         struct box_state *box = &c->stack[c->stack_size];
         box->proto = proto;
@@ -228,8 +228,10 @@ void chan_push(struct chan_state *c, struct box_proto *proto) {
         if (box->state) {
             proto->init(box->state);
             c->stack_size++;
+            return box->state;
         }
     }
+    return NULL;
 }
 
 static void chan_process(struct box_state *stack, int stack_size, double *l, double *r) {
