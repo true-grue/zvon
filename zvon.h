@@ -122,7 +122,7 @@ void chan_free(struct chan_state *c);
 void chan_push(struct chan_state *c, struct box_def *def);
 void chan_mix(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples);
 
-enum box_param {
+enum {
     ZVON_NOTE_ON,
     ZVON_NOTE_OFF,
     ZVON_VOLUME
