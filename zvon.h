@@ -83,7 +83,7 @@ struct noise_state {
     int taps[MAX_TAPS];
     int taps_size;
     unsigned int state;
-    double phase;    
+    double phase;
 };
 
 void noise_init(struct noise_state *s, int bits, int *taps, int taps_size);

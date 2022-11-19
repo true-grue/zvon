@@ -28,7 +28,7 @@ void test_basic_funcs(void) {
 void test_phasor(void) {
     struct phasor_state p;
     phasor_init(&p);
-    for (int i = 0; i < 16; i++) {    
+    for (int i = 0; i < 16; i++) {
         phasor_next(&p, 440);
     }
     assert(phasor_next(&p, 440) == 1.0030300354318433);
@@ -45,7 +45,7 @@ void test_env(void) {
     int deltas[] = {3, 5, 10};
     double levels[] = {1, 0.5, 0};
     env_init(&e, deltas, 0, levels, 3);
-    for (int i = 0; i < 16; i++) {    
+    for (int i = 0; i < 16; i++) {
         assert(env_next(&e) == correct[i]);
     }
 }

@@ -185,7 +185,7 @@ void noise_init(struct noise_state *s, int bits, int *taps, int taps_size) {
     s->taps_size = limit(taps_size, 1, MAX_TAPS);
     for (int i = 0; i < s->taps_size; i++) {
         s->taps[i] = taps[i];
-    } 
+    }
     s->state = 1;
     s->phase = 0;
 }

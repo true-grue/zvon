@@ -17,7 +17,7 @@ def lerp(x, y, a):
 
 def hertz(t, freq):
     return (2 * PI / SR) * freq * t
-    
+
 def dsf(phase, mod, width):
     mphase = mod * phase
     num = math.sin(phase) - width * math.sin(phase - mphase)
@@ -40,7 +40,7 @@ def pwm(phase, offset, width):
 def lfsr(state, size, taps):
     x = 0
     for t in taps:
-        x ^= state >> t 
+        x ^= state >> t
     return (state >> 1) | ((~x & 1) << (size - 1))
 
 class Phasor:
@@ -165,7 +165,7 @@ def noise_init(s, size, taps):
     s.taps = taps
     s.state = 1
     s.phase = 0
-    
+
 def noise_next(s, freq):
     s.phase += freq * (1 / SR)
     if s.phase >= 1:
@@ -179,8 +179,8 @@ class Chan:
 MAX_BOXES = 8
 
 def mix_init(channels):
-    for c in channels: 
-        chan_set(c, False, 0, 0)        
+    for c in channels:
+        chan_set(c, False, 0, 0)
         c.stack = [Box() for _ in range(MAX_BOXES)]
         c.stack_size = 0
 
