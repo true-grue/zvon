@@ -136,7 +136,7 @@ double seq_next(struct env_state *s) {
 }
 
 void delay_init(struct delay_state *s, int buf_size, double level, double fb) {
-    s->buf_size = limit(buf_size, 0, MAX_DELAY_SIZE);
+    s->buf_size = limit(buf_size, 1, MAX_DELAY_SIZE);
     for (size_t i = 0; i < s->buf_size; i++) {
         s->buf[i] = 0;
     }
@@ -182,7 +182,7 @@ double glide_next(struct glide_state *s, double target) {
 
 void noise_init(struct noise_state *s, int bits, int *taps, int taps_size) {
     s->bits = bits;
-    s->taps_size = limit(taps_size, 0, MAX_TAPS);
+    s->taps_size = limit(taps_size, 1, MAX_TAPS);
     for (int i = 0; i < s->taps_size; i++) {
         s->taps[i] = taps[i];
     } 
