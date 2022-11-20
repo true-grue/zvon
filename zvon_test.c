@@ -5,19 +5,23 @@
 #include <assert.h>
 #include "zvon.h"
 
+int eq(double x, double y) {
+    double scale = 1e10;
+    return round(x * scale) == round(y * scale);
+}
+
 void test_basic_funcs(void) {
-    assert(midi_freq(69) == 440);
-    assert(sec(0.5) == 22050);
-    assert(limit(0.5, 0, 1) == 0.5);
-    assert(limit(10, 0, 1) == 1);
-    assert(limit(-10, 0, 1) == 0);
-    assert(lerp(1, 10, 0) == 1);
-    assert(lerp(1, 10, 1) == 10);
-    assert(lerp(1, 10, 0.5) == 5.5);
-    assert(hertz(sec(1), 100) == 628.3185307179587);
-    assert(dsf(hertz(sec(0.001), 200), 2, 0.5) == 0.6933356074226505);
-    assert(dsf2(hertz(sec(0.001), 200), 2, 0.5) == 0.3466678037113253);
-    assert(pwm(100, 0.5, 0.8) == -1.1859547865063869);
+    assert(eq(midi_freq(69), 440));
+    assert(eq(limit(0.5, 0, 1), 0.5));
+    assert(eq(limit(10, 0, 1), 1));
+    assert(eq(limit(-10, 0, 1), 0));
+    assert(eq(lerp(1, 10, 0), 1));
+    assert(eq(lerp(1, 10, 1), 10));
+    assert(eq(lerp(1, 10, 0.5), 5.5));
+    assert(eq(hertz(SEC(1), 100), 628.3185307179587));
+    assert(eq(dsf(hertz(SEC(0.001), 200), 2, 0.5), 0.6933356074226505));
+    assert(eq(dsf2(hertz(SEC(0.001), 200), 2, 0.5), 0.3466678037113253));
+    assert(eq(pwm(100, 0.5, 0.8), -1.1859547865063869));
     unsigned int state = 1;
     for (int i = 0; i < 16; i++) {
       state = lfsr(state, 7, (int[]) {0, 3, 4}, 3);
@@ -46,7 +50,7 @@ void test_env(void) {
     double levels[] = {1, 0.5, 0};
     env_init(&e, deltas, 0, levels, 3);
     for (int i = 0; i < 16; i++) {
-        assert(env_next(&e) == correct[i]);
+        assert(eq(env_next(&e), correct[i]));
     }
 }
 
@@ -58,7 +62,7 @@ void test_delay(void) {
     struct delay_state d;
     delay_init(&d, 2, 0.5, 0.5);
     for (int i = 0; i < 10; i++) {
-        assert(delay_next(&d, 42) == correct[i]);
+        assert(eq(delay_next(&d, 42), correct[i]));
     }
 }
 
@@ -70,7 +74,7 @@ void test_filter(void) {
     struct filter_state f;
     filter_init(&f);
     for (int i = 0; i < 10; i++) {
-        assert(filter_hp_next(&f, 42, 0.5) == correct[i]);
+        assert(eq(filter_hp_next(&f, 42, 0.5), correct[i]));
     }
 }
 
@@ -82,7 +86,7 @@ void test_glide(void) {
     struct glide_state g;
     glide_init(&g, 200, 10000);
     for (int i = 0; i < 10; i++) {
-        assert(glide_next(&g, 400) == correct[i]);
+        assert(eq(glide_next(&g, 400), correct[i]));
     }
 }
 
@@ -110,17 +114,17 @@ void test_synth_init(struct test_synth_state *s) {
 
 void test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
     (void) val2;
-    if (param == ZV_NOTE_ON) {
+    if (param == 0) {
         s->freq = val1;
     }
 }
 
-double test_synth_next(struct test_synth_state *s, double x) {
-    (void) x;
+double test_synth_next(struct test_synth_state *s, double l) {
+    (void) l;
     return square(phasor_next(&s->p, s->freq), 0.5);
 }
 
-struct box_proto test_box_proto = {
+struct box_proto test_synth_proto = {
     .name = "test_synth",
     .state_size = sizeof(struct test_synth_state),
     .init = (box_init_func) test_synth_init,
@@ -129,7 +133,7 @@ struct box_proto test_box_proto = {
 };
 
 void test_mix(void) {
-    double correct[] = {
+    float correct[] = {
         0, 0, 36445, 52626, 66688, 87663, 87663, 103106,
         99749, 105989, 105081, 102887, 105989, 97593, 104300, 91904,
         101247, 86582, 97593, 81899, 93784, 77921, 90070, 74629,
@@ -139,15 +143,17 @@ void test_mix(void) {
     mix_init(channels, 2);
     chan_set(&channels[0], 1, 1, -1);
     chan_set(&channels[1], 1, 1, 1);
-    chan_push(&channels[0], &test_box_proto);
-    chan_push(&channels[1], &test_box_proto);
+    chan_push(&channels[0], &test_synth_proto);
+    chan_push(&channels[1], &test_synth_proto);
     struct box_state *box;
     box = &channels[0].stack[0];
-    box->proto->change(box->state, ZV_NOTE_ON, 440, 0);
+    box->proto->change(box->state, 0, 440, 1);
     box = &channels[1].stack[0];
-    box->proto->change(box->state, ZV_NOTE_ON, 440 * 1.5, 0);
-    double samples[16 * 2] = {0};
+    box->proto->change(box->state, 0, 440 * 1.5, 1);
+    float samples[16 * 2] = {0};
     mix_process(channels, 2, 1, samples, 16);
+    chan_free(&channels[0]);
+    chan_free(&channels[1]);
     for (int i = 0; i < 16; i++) {
         assert(round(100000 * samples[i]) == correct[i]);
     }

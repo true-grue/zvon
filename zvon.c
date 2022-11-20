@@ -2,15 +2,10 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "zvon_platform.h"
 #include "zvon.h"
 
 double midi_freq(int m) {
     return 440 * pow(2, (m - 69) * (1 / 12.));
-}
-
-int sec(double t) {
-    return t * SR;
 }
 
 double limit(double x, double low, double high) {
@@ -227,7 +222,7 @@ void *chan_push(struct chan_state *c, struct box_proto *proto) {
     if (c->stack_size < MAX_BOXES) {
         struct box_state *box = &c->stack[c->stack_size];
         box->proto = proto;
-        box->state = calloc(1, proto->state_size);
+        box->state = calloc(1, proto->state_size * 1000);
         if (box->state) {
             proto->init(box->state);
             c->stack_size++;
@@ -248,13 +243,13 @@ static void chan_process(struct box_state *stack, int stack_size, double *l, dou
     }
 }
 
-void mix_process(struct chan_state *channels, int num_channels, double vol, double *samples, int num_samples) {
+void mix_process(struct chan_state *channels, int num_channels, double vol, float *samples, int num_samples) {
     for (; num_samples; num_samples--, samples += 2) {
         double left = 0, right = 0;
         for (int i = 0; i < num_channels; i++) {
             struct chan_state *c = &channels[i];
+            double l = 0, r = 0;
             if (c->is_on) {
-                double l = 0, r = 0;
                 chan_process(c->stack, c->stack_size, &l, &r);
                 double pan = (c->pan + 1) * 0.5;
                 left += c->vol * l * (1 - pan);
