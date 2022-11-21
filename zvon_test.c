@@ -113,7 +113,7 @@ void test_synth_init(struct test_synth_state *s) {
     s->freq = 0;
 }
 
-void test_synth_change(struct test_synth_state *s, int param, double val, void *user) {
+void test_synth_change(struct test_synth_state *s, int param, float val, float *user) {
     (void) user;
     if (param == 0) {
         s->freq = val;

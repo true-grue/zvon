@@ -21,7 +21,7 @@ void test_square_init(struct test_square_state *s) {
     env_set(&s->env, 1, sec(0.5), 0);
 }
 
-void test_square_change(struct test_square_state *s, int param, double val, void* user) {
+void test_square_change(struct test_square_state *s, int param, float val, float* user) {
     (void) user;
     if (param == ZV_NOTE_ON) {
         s->freq = val;
@@ -65,7 +65,7 @@ void test_saw_init(struct test_saw_state *s) {
     env_set(&s->env, 1, sec(0.1), 0.5);
 }
 
-void test_saw_change(struct test_saw_state *s, int param, double val, double *user) {
+void test_saw_change(struct test_saw_state *s, int param, float val, float *user) {
     (void) user;
     if (param == ZV_NOTE_ON) {
         s->freq = val;
@@ -99,7 +99,7 @@ void test_delay_init(struct test_delay_state *s) {
     delay_init(&s->dly, s->delay_buf, sec(0.5), 0.5, 0.5);
 }
 
-void test_delay_change(struct test_delay_state *s, int param, double val, void *user) {
+void test_delay_change(struct test_delay_state *s, int param, float val, float *user) {
     (void) user;
     if (param == ZV_VOLUME) {
         s->dly.level = val;
