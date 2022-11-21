@@ -5,23 +5,23 @@
 #include <assert.h>
 #include "zvon.h"
 
-int eq(double x, double y) {
-    double scale = 1e10;
-    return round(x * scale) == round(y * scale);
+int feq(double x, double y) {
+    return fabs(x - y) < 1e-10;
 }
 
 void test_basic_funcs(void) {
-    assert(eq(midi_freq(69), 440));
-    assert(eq(limit(0.5, 0, 1), 0.5));
-    assert(eq(limit(10, 0, 1), 1));
-    assert(eq(limit(-10, 0, 1), 0));
-    assert(eq(lerp(1, 10, 0), 1));
-    assert(eq(lerp(1, 10, 1), 10));
-    assert(eq(lerp(1, 10, 0.5), 5.5));
-    assert(eq(hertz(SEC(1), 100), 628.3185307179587));
-    assert(eq(dsf(hertz(SEC(0.001), 200), 2, 0.5), 0.6933356074226505));
-    assert(eq(dsf2(hertz(SEC(0.001), 200), 2, 0.5), 0.3466678037113253));
-    assert(eq(pwm(100, 0.5, 0.8), -1.1859547865063869));
+    assert(feq(sec(0.5), 22050));
+    assert(feq(midi_freq(69), 440));
+    assert(feq(limit(0.5, 0, 1), 0.5));
+    assert(feq(limit(10, 0, 1), 1));
+    assert(feq(limit(-10, 0, 1), 0));
+    assert(feq(lerp(1, 10, 0), 1));
+    assert(feq(lerp(1, 10, 1), 10));
+    assert(feq(lerp(1, 10, 0.5), 5.5));
+    assert(feq(hertz(sec(1), 100), 628.3185307179587));
+    assert(feq(dsf(hertz(sec(0.001), 200), 2, 0.5), 0.6933356074226505));
+    assert(feq(dsf2(hertz(sec(0.001), 200), 2, 0.5), 0.3466678037113253));
+    assert(feq(pwm(100, 0.5, 0.8), -1.1859547865063869));
     unsigned int state = 1;
     for (int i = 0; i < 16; i++) {
       state = lfsr(state, 7, (int[]) {0, 3, 4}, 3);
@@ -48,9 +48,12 @@ void test_env(void) {
     struct env_state e;
     int deltas[] = {3, 5, 10};
     double levels[] = {1, 0.5, 0};
-    env_init(&e, deltas, 0, levels, 3);
+    env_init(&e, 3, deltas, levels, 0);
+    env_set(&e, 0, 3, 1);
+    env_set(&e, 1, 5, 0.5);
+    env_set(&e, 2, 10, 0);
     for (int i = 0; i < 16; i++) {
-        assert(eq(env_next(&e), correct[i]));
+        assert(feq(env_next(&e), correct[i]));
     }
 }
 
@@ -62,8 +65,9 @@ void test_delay(void) {
     struct delay_state d;
     delay_init(&d, 2, 0.5, 0.5);
     for (int i = 0; i < 10; i++) {
-        assert(eq(delay_next(&d, 42), correct[i]));
+        assert(feq(delay_next(&d, 42), correct[i]));
     }
+    delay_free(&d);
 }
 
 void test_filter(void) {
@@ -74,7 +78,7 @@ void test_filter(void) {
     struct filter_state f;
     filter_init(&f);
     for (int i = 0; i < 10; i++) {
-        assert(eq(filter_hp_next(&f, 42, 0.5), correct[i]));
+        assert(feq(filter_hp_next(&f, 42, 0.5), correct[i]));
     }
 }
 
@@ -86,7 +90,7 @@ void test_glide(void) {
     struct glide_state g;
     glide_init(&g, 200, 10000);
     for (int i = 0; i < 10; i++) {
-        assert(eq(glide_next(&g, 400), correct[i]));
+        assert(feq(glide_next(&g, 400), correct[i]));
     }
 }
 
@@ -119,17 +123,17 @@ void test_synth_change(struct test_synth_state *s, int param, double val1, doubl
     }
 }
 
-double test_synth_next(struct test_synth_state *s, double l) {
+double test_synth_mono(struct test_synth_state *s, double l) {
     (void) l;
     return square(phasor_next(&s->p, s->freq), 0.5);
 }
 
-struct box_proto test_synth_proto = {
+struct sfx_proto test_synth_proto = {
     .name = "test_synth",
-    .state_size = sizeof(struct test_synth_state),
-    .init = (box_init_func) test_synth_init,
-    .change = (box_change_func) test_synth_change,
-    .next = (box_next_func) test_synth_next
+    .init = (sfx_init_func) test_synth_init,
+    .change = (sfx_change_func) test_synth_change,
+    .mono = (sfx_mono_func) test_synth_mono,
+    .state_size = sizeof(struct test_synth_state)
 };
 
 void test_mix(void) {
@@ -145,7 +149,7 @@ void test_mix(void) {
     chan_set(&channels[1], 1, 1, 1);
     chan_push(&channels[0], &test_synth_proto);
     chan_push(&channels[1], &test_synth_proto);
-    struct box_state *box;
+    struct sfx_box *box;
     box = &channels[0].stack[0];
     box->proto->change(box->state, 0, 440, 1);
     box = &channels[1].stack[0];

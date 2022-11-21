@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include "zvon.h"
 
+int sec(double t) {
+    return t * SR;
+}
+
 double midi_freq(int m) {
     return 440 * pow(2, (m - 69) * (1 / 12.));
 }
@@ -22,14 +26,14 @@ double hertz(double t, double freq) {
 
 double dsf(double phase, double mod, double width) {
     double mphase = mod * phase;
-    double num = sin(phase) - width * sin(phase - mphase);
-    return num / (1 + width * (width - 2 * cos(mphase)));
+    double n = sin(phase) - width * sin(phase - mphase);
+    return n / (1 + width * (width - 2 * cos(mphase)));
 }
 
 double dsf2(double phase, double mod, double width) {
     double mphase = mod * phase;
-    double num = sin(phase) * (1 - width * width);
-    return num / (1 + width * (width - 2 * cos(mphase)));
+    double n = sin(phase) * (1 - width * width);
+    return n / (1 + width * (width - 2 * cos(mphase)));
 }
 
 double saw(double phase, double width) {
@@ -66,7 +70,7 @@ double phasor_next(struct phasor_state *s, double freq) {
     return p;
 }
 
-void env_init(struct env_state *s, int *deltas, double level_0, double *levels, int env_size) {
+void env_init(struct env_state *s, int env_size, int *deltas, double *levels, double level_0) {
     s->deltas = deltas;
     s->levels = levels;
     s->env_size = env_size;
@@ -76,6 +80,16 @@ void env_init(struct env_state *s, int *deltas, double level_0, double *levels, 
     s->level_0 = level_0;
     s->level = level_0;
     env_reset(s);
+}
+
+void env_set(struct env_state *s, int pos, int delta, double level) {
+    s->deltas[pos] = delta;
+    s->levels[pos] = level;
+}
+
+void env_free(struct env_state *s) {
+    free(s->deltas);
+    free(s->levels);
 }
 
 void env_reset(struct env_state *s) {
@@ -130,14 +144,19 @@ double seq_next(struct env_state *s) {
     return env_next_head(s, step);
 }
 
-void delay_init(struct delay_state *s, int buf_size, double level, double fb) {
-    s->buf_size = limit(buf_size, 1, MAX_DELAY_SIZE);
-    for (size_t i = 0; i < s->buf_size; i++) {
+void delay_init(struct delay_state *s, size_t buf_size, double level, double fb) {
+    s->buf = malloc(buf_size * sizeof(double));
+    for (size_t i = 0; i < buf_size; i++) {
         s->buf[i] = 0;
     }
+    s->buf_size = buf_size;
     s->level = level;
     s->fb = fb;
     s->pos = 0;
+}
+
+void delay_free(struct delay_state *s) {
+    free(s->buf);
 }
 
 double delay_next(struct delay_state *s, double x) {
@@ -210,19 +229,19 @@ void chan_set(struct chan_state *c, int is_on, double vol, double pan) {
 
 void chan_free(struct chan_state *c) {
     for (int i = 0; i < c->stack_size; i++) {
-        if (c->stack[i].proto->deinit) {
-            c->stack[i].proto->deinit(&c->stack[i].state);
+        if (c->stack[i].proto->free) {
+            c->stack[i].proto->free(&c->stack[i].state);
         }
         free(c->stack[i].state);
     }
     c->stack_size = 0;
 }
 
-void *chan_push(struct chan_state *c, struct box_proto *proto) {
-    if (c->stack_size < MAX_BOXES) {
-        struct box_state *box = &c->stack[c->stack_size];
+void *chan_push(struct chan_state *c, struct sfx_proto *proto) {
+    if (c->stack_size < MAX_SFX_BOXES) {
+        struct sfx_box *box = &c->stack[c->stack_size];
         box->proto = proto;
-        box->state = calloc(1, proto->state_size * 1000);
+        box->state = calloc(1, proto->state_size);
         if (box->state) {
             proto->init(box->state);
             c->stack_size++;
@@ -232,12 +251,12 @@ void *chan_push(struct chan_state *c, struct box_proto *proto) {
     return NULL;
 }
 
-static void chan_process(struct box_state *stack, int stack_size, double *l, double *r) {
+static void chan_process(struct sfx_box *stack, int stack_size, double *l, double *r) {
     for (int i = 0; i < stack_size; i++) {
-        if (stack[i].proto->next_stereo) {
-            stack[i].proto->next_stereo(stack[i].state, l, r);
+        if (stack[i].proto->stereo) {
+            stack[i].proto->stereo(stack[i].state, l, r);
         } else {
-            *l = stack[i].proto->next(stack[i].state, *l);
+            *l = stack[i].proto->mono(stack[i].state, *l);
             *r = *l;
         }
     }
