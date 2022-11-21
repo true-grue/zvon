@@ -144,16 +144,12 @@ double seq_next(struct env_state *s) {
     return env_next_head(s, step);
 }
 
-void delay_init(struct delay_state *s, size_t buf_size, double level, double fb) {
-    s->buf = calloc(buf_size, sizeof(double));
+void delay_init(struct delay_state *s, double *buf, size_t buf_size, double level, double fb) {
+    s->buf = buf;
     s->buf_size = buf_size;
     s->level = level;
     s->fb = fb;
     s->pos = 0;
-}
-
-void delay_free(struct delay_state *s) {
-    free(s->buf);
 }
 
 double delay_next(struct delay_state *s, double x) {

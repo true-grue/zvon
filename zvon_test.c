@@ -60,11 +60,11 @@ void test_delay(void) {
         73.5, 78.75, 78.75, 81.375, 81.375
     };
     struct delay_state d;
-    delay_init(&d, 2, 0.5, 0.5);
+    double delay_buf[2] = {0};
+    delay_init(&d, delay_buf, 2, 0.5, 0.5);
     for (int i = 0; i < 10; i++) {
         assert(feq(delay_next(&d, 42), correct[i]));
     }
-    delay_free(&d);
 }
 
 void test_filter(void) {

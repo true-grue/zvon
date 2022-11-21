@@ -58,8 +58,7 @@ struct delay_state {
     size_t pos;
 };
 
-void delay_init(struct delay_state *s, size_t buf_size, double level, double fb);
-void delay_free(struct delay_state *s);
+void delay_init(struct delay_state *s, double *buf, size_t buf_size, double level, double fb);
 double delay_next(struct delay_state *s, double x);
 
 struct filter_state {
