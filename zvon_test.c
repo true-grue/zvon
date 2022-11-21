@@ -113,10 +113,10 @@ void test_synth_init(struct test_synth_state *s) {
     s->freq = 0;
 }
 
-void test_synth_change(struct test_synth_state *s, int param, double val1, double val2) {
-    (void) val2;
+void test_synth_change(struct test_synth_state *s, int param, double val, void *user) {
+    (void) user;
     if (param == 0) {
-        s->freq = val1;
+        s->freq = val;
     }
 }
 
@@ -148,9 +148,9 @@ void test_mix(void) {
     chan_push(&channels[1], &test_synth_proto);
     struct sfx_box *box;
     box = &channels[0].stack[0];
-    box->proto->change(box->state, 0, 440, 1);
+    box->proto->change(box->state, 0, 440, 0);
     box = &channels[1].stack[0];
-    box->proto->change(box->state, 0, 440 * 1.5, 1);
+    box->proto->change(box->state, 0, 440 * 1.5, 0);
     float samples[16 * 2] = {0};
     mix_process(channels, 2, 1, samples, 16);
     chan_free(&channels[0]);
