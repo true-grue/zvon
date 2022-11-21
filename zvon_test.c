@@ -49,9 +49,6 @@ void test_env(void) {
     int deltas[] = {3, 5, 10};
     double levels[] = {1, 0.5, 0};
     env_init(&e, 3, deltas, levels, 0);
-    env_set(&e, 0, 3, 1);
-    env_set(&e, 1, 5, 0.5);
-    env_set(&e, 2, 10, 0);
     for (int i = 0; i < 16; i++) {
         assert(feq(env_next(&e), correct[i]));
     }
