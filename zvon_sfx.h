@@ -1,7 +1,7 @@
 /* Author: Peter Sovietov */
 
-#ifndef ZVON_BOXES_H
-#define ZVON_BOXES_H
+#ifndef ZVON_SFX_H
+#define ZVON_SFX_H
 
 #include "zvon.h"
 
