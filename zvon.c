@@ -145,10 +145,7 @@ double seq_next(struct env_state *s) {
 }
 
 void delay_init(struct delay_state *s, size_t buf_size, double level, double fb) {
-    s->buf = malloc(buf_size * sizeof(double));
-    for (size_t i = 0; i < buf_size; i++) {
-        s->buf[i] = 0;
-    }
+    s->buf = calloc(buf_size, sizeof(double));
     s->buf_size = buf_size;
     s->level = level;
     s->fb = fb;
