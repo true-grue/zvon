@@ -43,6 +43,9 @@ def lfsr(state, size, taps):
         x ^= state >> t
     return (state >> 1) | ((~x & 1) << (size - 1))
 
+def overdrive(x, drive):
+    return math.tanh(x * drive)
+
 class Phasor:
     __slots__ = ('phase',)
 
@@ -190,7 +193,7 @@ def chan_set(c, is_on, vol, pan):
     c.pan = pan
 
 class Box:
-    __slots__ = ('change', 'next', 'state', 'is_stereo')
+    __slots__ = ('change', 'mono', 'stereo', 'state')
 
 def chan_push(c, box_init):
     box_init(c.stack[c.stack_size])
@@ -200,10 +203,10 @@ def chan_process(stack, stack_size):
     l, r = 0, 0
     for i in range(stack_size):
         box = stack[i]
-        if box.is_stereo:
-            l, r = box.next(box.state, l, r)
+        if box.stereo:
+            l, r = box.stereo(box.state, l, r)
         else:
-            l = box.next(box.state, l)
+            l = box.mono(box.state, l)
             r = l
     return l, r
 

@@ -9,7 +9,7 @@ void gen_pcm(struct sfx_proto *test_box, double freq, int num_samples) {
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
     chan_push(&channels[0], test_box);
-    chan_push(&channels[0], &delay_box);
+    chan_push(&channels[0], &sfx_delay);
     struct sfx_box *box;
     box = &channels[0].stack[0];
     box->proto->change(box->state, ZV_NOTE_ON, freq, 0);
