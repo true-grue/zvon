@@ -104,7 +104,7 @@ void delay_box_change(struct delay_box_state *s, int param, float val, float *us
     if (param == ZV_VOLUME) {
         s->d.level = val;
     } else if (param == ZV_TIME) {
-        s->d.buf_size = limit(val, 1, SR);
+        s->d.buf_size = limit(sec(val), 1, SR);
         s->d.pos = 0;
     } else if (param == ZV_FEEDBACK) {
         s->d.fb = val;
