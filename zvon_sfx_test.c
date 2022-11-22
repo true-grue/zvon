@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include "zvon_sfx.h"
 
-void gen_pcm(struct sfx_proto *test_box_proto, double freq, int num_samples) {
+void gen_pcm(struct sfx_proto *test_box, double freq, int num_samples) {
     struct chan_state channels[1];
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
-    chan_push(&channels[0], test_box_proto);
-    chan_push(&channels[0], &test_delay_box);
+    chan_push(&channels[0], test_box);
+    chan_push(&channels[0], &delay_box);
     struct sfx_box *box;
     box = &channels[0].stack[0];
     box->proto->change(box->state, ZV_NOTE_ON, freq, 0);
