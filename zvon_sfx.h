@@ -13,6 +13,10 @@ enum {
     ZV_FEEDBACK,
     ZV_GAIN,
     ZV_WAVE_TYPE,
+    ZV_ATTACK_TIME,
+    ZV_DECAY_TIME,
+    ZV_SUSTAIN_LEVEL,
+    ZV_RELEASE_TIME,
     ZV_END
 };
 

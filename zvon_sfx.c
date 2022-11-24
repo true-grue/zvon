@@ -26,6 +26,14 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
         adsr_note_off(&s->adsr);
     } else if (param == ZV_WAVE_TYPE) {
         s->wave_type = limit(val, 0, 1);
+    } else if (param == ZV_ATTACK_TIME) {
+        adsr_set_attack(&s->adsr, val);
+    } else if (param == ZV_DECAY_TIME) {
+        adsr_set_decay(&s->adsr, val);
+    } else if (param == ZV_SUSTAIN_LEVEL) {
+        adsr_set_sustain(&s->adsr, val);
+    } else if (param == ZV_RELEASE_TIME) {
+        adsr_set_release(&s->adsr, val);
     }
 }
 
@@ -34,15 +42,17 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     double x = 0;
     double p = phasor_next(&s->phase, s->freq);
     if (s->wave_type == 0) {
-        x = square(p, 0.5);
+        x = sin(p);
     } else if (s->wave_type == 1) {
+        x = square(p, 0.5);
+    } else if (s->wave_type == 2) {
         x = saw(p, 0.7);
     }
     return x * adsr_next(&s->adsr);
 }
 
 struct sfx_proto sfx_synth = {
-    .name = "distortion",
+    .name = "synth",
     .init = (sfx_init_func) sfx_synth_init,
     .change = (sfx_change_func) sfx_synth_change,
     .mono = (sfx_mono_func) sfx_synth_mono,
@@ -108,7 +118,7 @@ static double sfx_dist_mono(struct sfx_dist_state *s, double l) {
 }
 
 struct sfx_proto sfx_dist = {
-    .name = "distortion",
+    .name = "dist",
     .init = (sfx_init_func) sfx_dist_init,
     .change = (sfx_change_func) sfx_dist_change,
     .mono = (sfx_mono_func) sfx_dist_mono,
