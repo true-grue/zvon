@@ -198,6 +198,7 @@ class Box:
 def chan_push(c, box_init):
     box_init(c.stack[c.stack_size])
     c.stack_size += 1
+    return c.stack[c.stack_size - 1]
 
 def chan_process(stack, stack_size):
     l, r = 0, 0

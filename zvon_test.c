@@ -113,8 +113,8 @@ void test_synth_init(struct test_synth_state *s) {
     s->freq = 0;
 }
 
-void test_synth_change(struct test_synth_state *s, int param, float val, float *user) {
-    (void) user;
+void test_synth_change(struct test_synth_state *s, int param, float val, float *data) {
+    (void) data;
     if (param == 0) {
         s->freq = val;
     }
@@ -153,8 +153,8 @@ void test_mix(void) {
     box->proto->change(box->state, 0, 440 * 1.5, 0);
     float samples[16 * 2] = {0};
     mix_process(channels, 2, 1, samples, 16);
-    chan_free(&channels[0]);
-    chan_free(&channels[1]);
+    chan_drop(&channels[0]);
+    chan_drop(&channels[1]);
     for (int i = 0; i < 16; i++) {
         assert(round(100000 * samples[i]) == correct[i]);
     }

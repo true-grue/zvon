@@ -19,13 +19,13 @@ void gen_pcm(struct sfx_proto *test_box, double freq, int num_samples) {
     FILE *fp = fopen("sfx_test.pcm", "wb");
     fwrite(samples, num_samples * 2, sizeof(float), fp);
     fclose(fp);
-    chan_free(&channels[0]);
+    chan_drop(&channels[0]);
     free(samples);
 }
 
 int main(int argc, char **argv) {
     (void) argc;
     (void) argv;
-    gen_pcm(&test_square_box, 440, sec(5));
+    gen_pcm(&sfx_synth, 440, sec(5));
     return 0;
 }
