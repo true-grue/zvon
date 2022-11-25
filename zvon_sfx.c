@@ -20,9 +20,9 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     phasor_init(&s->phase);
     adsr_init(&s->adsr, 0);
     glide_init(&s->glide, 440, 100);
-    lfo_init(&s->freq_lfo, WAVE_SIN, 1, 0, 1, 0);
-    lfo_init(&s->width_lfo, WAVE_SIN, 1, 0, 1, 0);
-    s->wave_type = WAVE_SIN;
+    lfo_init(&s->freq_lfo, ZV_SIN, 1, 0, 1, 0);
+    lfo_init(&s->width_lfo, ZV_SIN, 1, 0, 1, 0);
+    s->wave_type = ZV_SIN;
     s->freq = 0;
     s->wave_width = 0.5;
     s->is_glide_on = 0;
@@ -108,12 +108,12 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     freq = limit(freq + lfo_next(&s->freq_lfo), 0, 15000);
     double width = limit(s->wave_width + lfo_next(&s->width_lfo), 0, 0.9);
     double phase = phasor_next(&s->phase, freq);
-    if (s->wave_type == WAVE_SIN) {
+    if (s->wave_type == ZV_SIN) {
         x = sin(phase);
-    } else if (s->wave_type == WAVE_SQUARE) {
-        x = square(phase, width);
-    } else if (s->wave_type == WAVE_SAW) {
+    } else if (s->wave_type == ZV_SAW) {
         x = saw(phase, width);
+    } else if (s->wave_type == ZV_SQUARE) {
+        x = square(phase, width);
     }
     return x * adsr_next(&s->adsr) * s->vol;
 }

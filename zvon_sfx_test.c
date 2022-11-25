@@ -43,10 +43,10 @@ int main(int argc, char **argv) {
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
     struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
-    box->proto->change(box->state, ZV_WAVE_TYPE, WAVE_SAW, 0);
+    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_SAW, 0);
     box->proto->change(box->state, ZV_WAVE_WIDTH, 0.7, 0);
     box->proto->change(box->state, ZV_VOLUME, 0.5, 0);
-    box->proto->change(box->state, ZV_FREQ_LFO_WAVE_TYPE, WAVE_SQUARE, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_WAVE_TYPE, ZV_SQUARE, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_WAVE_SIGN, 1, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_FREQ, 10, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_LEVEL, 100, 0);

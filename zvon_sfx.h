@@ -37,4 +37,11 @@ extern struct sfx_proto sfx_synth;
 extern struct sfx_proto sfx_delay;
 extern struct sfx_proto sfx_dist;
 
+enum {
+    ZV_SIN = LFO_SIN,
+    ZV_SAW = LFO_SAW,
+    ZV_SQUARE = LFO_SQUARE,
+    ZV_TRIANGLE = LFO_TRIANGLE
+};
+
 #endif

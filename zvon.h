@@ -159,10 +159,10 @@ void mix_init(struct chan_state *channels, int num_channels);
 void mix_process(struct chan_state *channels, int num_channels, double vol, float *samples, int num_samples);
 
 enum {
-    WAVE_SIN,
-    WAVE_SAW,
-    WAVE_SQUARE,
-    WAVE_TRIANGLE
+    LFO_SIN,
+    LFO_SAW,
+    LFO_SQUARE,
+    LFO_TRIANGLE
 };
 
 #endif
