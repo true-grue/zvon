@@ -12,6 +12,7 @@ struct sfx_synth_state {
     int is_glide_on;
     double freq;
     int wave_type;
+    double vol;
 };
 
 static void sfx_synth_init(struct sfx_synth_state *s) {
@@ -28,6 +29,9 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
 static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, float *data) {
     (void) data;
     switch (param) {
+    case ZV_VOLUME:
+        s->vol = val;
+        break;
     case ZV_NOTE_ON:
         s->freq = val;
         adsr_note_on(&s->adsr);
@@ -113,7 +117,7 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     } else if (s->wave_type == 2) {
         x = saw(phase, width);
     }
-    return x * adsr_next(&s->adsr);
+    return x * adsr_next(&s->adsr) * s->vol;
 }
 
 struct sfx_proto sfx_synth = {

@@ -20,12 +20,10 @@ void play(int num_samples) {
 }
 
 void song(void) {
-    note_on(60);
-    play(sec(0.5));
-    note_on(63);
-    play(sec(0.5));
-    note_on(65);
-    play(sec(0.5));
+    for (int i = 0; i < 8; i++) {
+        note_on(60 + i);
+        play(sec(0.255));
+    }
 }
 
 int main(int argc, char **argv) {
@@ -34,8 +32,10 @@ int main(int argc, char **argv) {
     fp = fopen("sfx_test.pcm", "wb");
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
-    struct sfx_box *box = chan_push(&channels[0], &sfx_synth);
+    struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
     box->proto->change(box->state, ZV_WAVE_TYPE, 2, 0);
+    box->proto->change(box->state, ZV_VOLUME, 0.5, 0);
+    box->proto->change(box->state, ZV_WIDTH_LFO_OFFSET, 0.8, 0);
     song();
     chan_drop(&channels[0]);
     fclose(fp);
