@@ -243,8 +243,13 @@ double noise_next(struct noise_state *s, double freq) {
     return 2 * (s->state & 1) - 1;
 }
 
-void lfo_init(struct lfo_state *s) {
-    s->sign = 1;
+void lfo_init(struct lfo_state *s, int func, int sign, double freq, double level, double offset, int is_oneshot) {
+    s->func = func;
+    s->sign = sign;
+    s->freq = freq;
+    s->level = level;
+    s->offset = offset;
+    s->is_oneshot = is_oneshot;
 }
 
 double lfo_func(double x, int func) {
@@ -265,7 +270,7 @@ double lfo_func(double x, int func) {
 double lfo_next(struct lfo_state *s) {
     double y = s->sign * lfo_func(s->phase, s->func) * s->level + s->offset;
     double old_phase = s->phase;
-    s->phase = fmod(s->phase + s->freq * (1 / SR), 1);
+    s->phase = fmod(s->phase + s->freq * (1. / SR), 1);
     if (s->is_oneshot && old_phase > s->phase) {
         s->phase = old_phase;
     }

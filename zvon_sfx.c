@@ -18,8 +18,8 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     phasor_init(&s->phase);
     adsr_init(&s->adsr, 0);
     glide_init(&s->glide, 440, 100);
-    lfo_init(&s->freq_lfo);
-    lfo_init(&s->width_lfo);
+    lfo_init(&s->freq_lfo, 0, 1, 0, 1, 0, 0);
+    lfo_init(&s->width_lfo, 0, 1, 0, 1, 0.5, 0);
     s->freq = 0;
     s->wave_type = 0;
     s->is_glide_on = 0;
