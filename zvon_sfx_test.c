@@ -44,14 +44,13 @@ int main(int argc, char **argv) {
     chan_set(&channels[0], 1, 1, 0);
     struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
     box->proto->change(box->state, ZV_WAVE_TYPE, 2, 0);
+    box->proto->change(box->state, ZV_WAVE_WIDTH, 0.7, 0);
     box->proto->change(box->state, ZV_VOLUME, 0.5, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_WAVE_TYPE, 2, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_WAVE_SIGN, -1, 0);
-    box->proto->change(box->state, ZV_FREQ_LFO_FREQ, 10, 0);
-    box->proto->change(box->state, ZV_FREQ_LFO_LEVEL, 100, 0);
-    box->proto->change(box->state, ZV_FREQ_LFO_OFFSET, -100, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_FREQ, 15, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_LEVEL, 200, 0);
     box->proto->change(box->state, ZV_FREQ_LFO_IS_ONESHOT, 1, 0);
-    box->proto->change(box->state, ZV_WIDTH_LFO_OFFSET, 0.7, 0);
     song();
     chan_drop(&channels[0]);
     fclose(fp);
