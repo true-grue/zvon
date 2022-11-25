@@ -13,6 +13,7 @@ void gen_pcm(struct sfx_proto *test_box, double freq, int num_samples) {
     box = &channels[0].stack[0];
     box->proto->change(box->state, ZV_NOTE_ON, freq, 0);
     box->proto->change(box->state, ZV_VOLUME, 1, 0);
+    box->proto->change(box->state, ZV_WAVE_TYPE, 2, 0);
     float *samples = calloc(num_samples * 2, sizeof(float));
     mix_process(channels, 1, 1, samples, num_samples);
     FILE *fp = fopen("sfx_test.pcm", "wb");

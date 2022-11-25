@@ -7,6 +7,8 @@ struct sfx_synth_state {
     struct phasor_state phase;
     struct adsr_state adsr;
     struct glide_state glide;
+    struct lfo_state freq_lfo;
+    struct lfo_state width_lfo;
     int is_glide_on;
     double freq;
     int wave_type;
@@ -16,6 +18,8 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     phasor_init(&s->phase);
     adsr_init(&s->adsr, 0);
     glide_init(&s->glide, 440, 100);
+    lfo_init(&s->freq_lfo);
+    lfo_init(&s->width_lfo);
     s->freq = 0;
     s->wave_type = 0;
     s->is_glide_on = 0;
@@ -53,22 +57,55 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     case ZV_GLIDE_OFF:
         s->is_glide_on = 0;
         break;
+    case ZV_FREQ_LFO_WAVE_TYPE:
+        s->freq_lfo.func = val;
+        break;
+    case ZV_FREQ_LFO_WAVE_SIGN:
+        s->freq_lfo.sign = val;
+        break;
+    case ZV_FREQ_LFO_WAVE_LEVEL:
+        s->freq_lfo.level = val;
+        break;
+    case ZV_FREQ_LFO_WAVE_OFFSET:
+        s->freq_lfo.offset = val;
+        break;
+    case ZV_FREQ_LFO_WAVE_ONESHOT:
+        s->freq_lfo.is_oneshot = val;
+        break;
+    case ZV_WIDTH_LFO_WAVE_TYPE:
+        s->width_lfo.func = val;
+        break;
+    case ZV_WIDTH_LFO_WAVE_SIGN:
+        s->width_lfo.sign = val;
+        break;
+    case ZV_WIDTH_LFO_WAVE_LEVEL:
+        s->width_lfo.level = val;
+        break;
+    case ZV_WIDTH_LFO_WAVE_OFFSET:
+        s->width_lfo.offset = val;
+        break;
+    case ZV_WIDTH_LFO_WAVE_ONESHOT:
+        s->width_lfo.is_oneshot = val;
+        break;
     }
 }
 
 static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     (void) l;
-    double x = 0, freq = s->freq;
+    double x = 0;
+    double freq = s->freq;
     if (s->is_glide_on) {
-        freq = glide_next(&s->glide, s->freq);
+        freq = glide_next(&s->glide, freq);
     }
-    double p = phasor_next(&s->phase, freq);
+    freq = limit(s->freq + lfo_next(&s->freq_lfo), 0, 15000);
+    double width = limit(lfo_next(&s->width_lfo), 0, 0.9);
+    double phase = phasor_next(&s->phase, freq);
     if (s->wave_type == 0) {
-        x = sin(p);
+        x = sin(phase);
     } else if (s->wave_type == 1) {
-        x = square(p, 0.5);
+        x = square(phase, width);
     } else if (s->wave_type == 2) {
-        x = saw(p, 0.7);
+        x = saw(phase, width);
     }
     return x * adsr_next(&s->adsr);
 }

@@ -64,10 +64,6 @@ void phasor_init(struct phasor_state *s) {
     s->phase = 0;
 }
 
-void phasor_reset(struct phasor_state *s) {
-    s->phase = 0;
-}
-
 double phasor_next(struct phasor_state *s, double freq) {
     double p = s->phase;
     s->phase = fmod(s->phase + (2 * PI / SR) * freq, SR * PI);
@@ -239,12 +235,41 @@ void noise_init(struct noise_state *s, int bits, int *taps, int taps_size) {
 }
 
 double noise_next(struct noise_state *s, double freq) {
-    s->phase += freq * (1. / SR);
-    if (s->phase >= 1) {
-        s->phase -= 1;
+    double old_phase = s->phase;
+    s->phase = fmod(s->phase + freq * (1 / SR), 1);
+    if (old_phase > s->phase) {
         s->state = lfsr(s->state, s->bits, s->taps, s->taps_size);
     }
     return 2 * (s->state & 1) - 1;
+}
+
+void lfo_init(struct lfo_state *s) {
+    s->sign = 1;
+}
+
+double lfo_func(double x, int func) {
+    switch (func) {
+    case 1:
+        return sin(x * 2 * PI);
+    case 2:
+        return 2 * x - 1;
+    case 3:
+        return 2 * floor(x * 2) - 1;
+    case 4:
+        return 4 * (x - floor(2 * x) * (2 * x - 1)) - 1;
+    default:
+        return 0;
+    }
+}
+
+double lfo_next(struct lfo_state *s) {
+    double y = s->sign * lfo_func(s->phase, s->func) * s->level + s->offset;
+    double old_phase = s->phase;
+    s->phase = fmod(s->phase + s->freq * (1 / SR), 1);
+    if (s->is_oneshot && old_phase > s->phase) {
+        s->phase = old_phase;
+    }
+    return y;
 }
 
 void mix_init(struct chan_state *channels, int num_channels) {

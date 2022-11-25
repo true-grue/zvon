@@ -23,7 +23,6 @@ struct phasor_state {
 };
 
 void phasor_init(struct phasor_state *s);
-void phasor_reset(struct phasor_state *s);
 double phasor_next(struct phasor_state *s, double freq);
 
 struct env_state {
@@ -106,6 +105,20 @@ struct noise_state {
 
 void noise_init(struct noise_state *s, int bits, int *taps, int taps_size);
 double noise_next(struct noise_state *s, double freq);
+
+struct lfo_state {
+    double phase;
+    double freq;
+    int func;
+    int sign;
+    double level;
+    double offset;
+    int is_oneshot;
+};
+
+void lfo_init(struct lfo_state *s);
+double lfo_func(double x, int func);
+double lfo_next(struct lfo_state *s);
 
 typedef void (*sfx_change_func)(void *state, int param, float val, float *data);
 typedef double (*sfx_mono_func)(void *state, double l);
