@@ -63,6 +63,9 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     case ZV_FREQ_LFO_WAVE_SIGN:
         s->freq_lfo.sign = val;
         break;
+    case ZV_FREQ_LFO_FREQ:
+        s->freq_lfo.freq = val;
+        break;
     case ZV_FREQ_LFO_LEVEL:
         s->freq_lfo.level = val;
         break;
@@ -77,6 +80,9 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
         break;
     case ZV_WIDTH_LFO_WAVE_SIGN:
         s->width_lfo.sign = val;
+        break;
+    case ZV_WIDTH_LFO_FREQ:
+        s->width_lfo.freq = val;
         break;
     case ZV_WIDTH_LFO_LEVEL:
         s->width_lfo.level = val;
