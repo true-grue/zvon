@@ -11,9 +11,6 @@ struct sfx_synth_state {
     int wave_type;
 };
 
-void glide_init(struct glide_state *s, double source, double rate);
-double glide_next(struct glide_state *s, double target);
-
 static void sfx_synth_init(struct sfx_synth_state *s) {
     phasor_init(&s->phase);
     adsr_init(&s->adsr, 0);
@@ -40,7 +37,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     } else if (param == ZV_RELEASE_TIME) {
         adsr_set_release(&s->adsr, val);
     } else if (param == ZV_GLIDE_RATE) {
-        s->glide->rate = val;
+        s->glide.rate = val;
     }
 }
 
@@ -81,10 +78,10 @@ static void sfx_delay_change(struct sfx_delay_state *s, int param, float val, fl
     (void) user;
     if (param == ZV_VOLUME) {
         s->d.level = val;
-    } else if (param == ZV_TIME) {
+    } else if (param == ZV_DELAY_TIME) {
         s->d.buf_size = limit(sec(val), 1, DELAY_SIZE);
         s->d.pos = 0;
-    } else if (param == ZV_FEEDBACK) {
+    } else if (param == ZV_DELAY_FEEDBACK) {
         s->d.fb = val;
     }
 }
