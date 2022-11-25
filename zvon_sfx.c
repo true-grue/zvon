@@ -41,7 +41,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     } else if (param == ZV_GLIDE_MODE) {
         s->is_glide_on = val;
     } else if (param == ZV_GLIDE_RATE) {
-        s->glide.rate = val;
+        glide_set_rate(&s->glide, val);
     }
 }
 
@@ -85,10 +85,10 @@ static void sfx_delay_change(struct sfx_delay_state *s, int param, float val, fl
     (void) user;
     if (param == ZV_VOLUME) {
         s->d.level = val;
-    } else if (param == ZV_DELAY_TIME) {
+    } else if (param == ZV_TIME) {
         s->d.buf_size = limit(sec(val), 1, DELAY_SIZE);
         s->d.pos = 0;
-    } else if (param == ZV_DELAY_FEEDBACK) {
+    } else if (param == ZV_FEEDBACK) {
         s->d.fb = val;
     }
 }
