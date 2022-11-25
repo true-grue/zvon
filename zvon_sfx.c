@@ -39,7 +39,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     } else if (param == ZV_RELEASE_TIME) {
         adsr_set_release(&s->adsr, val);
     } else if (param == ZV_GLIDE_MODE) {
-        s->is_glide_on = limit(val, 0, 1);
+        s->is_glide_on = val;
     } else if (param == ZV_GLIDE_RATE) {
         s->glide.rate = val;
     }
