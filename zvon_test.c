@@ -103,63 +103,6 @@ void test_noise(void) {
     }
 }
 
-struct test_synth_state {
-    struct phasor_state p;
-    double freq;
-};
-
-void test_synth_init(struct test_synth_state *s) {
-    phasor_init(&s->p);
-    s->freq = 0;
-}
-
-void test_synth_change(struct test_synth_state *s, int param, float val, float *data) {
-    (void) data;
-    if (param == 0) {
-        s->freq = val;
-    }
-}
-
-double test_synth_mono(struct test_synth_state *s, double l) {
-    (void) l;
-    return square(phasor_next(&s->p, s->freq), 0.5);
-}
-
-struct sfx_proto test_synth_proto = {
-    .name = "test_synth",
-    .init = (sfx_init_func) test_synth_init,
-    .change = (sfx_change_func) test_synth_change,
-    .mono = (sfx_mono_func) test_synth_mono,
-    .state_size = sizeof(struct test_synth_state)
-};
-
-void test_mix(void) {
-    float correct[] = {
-        0, 0, 36445, 52626, 66688, 87663, 87663, 103106,
-        99749, 105989, 105081, 102887, 105989, 97593, 104300, 91904,
-        101247, 86582, 97593, 81899, 93784, 77921, 90070, 74629,
-        86582, 71974, 83382, 69902, 80495, 68369, 77921, 67337
-    };
-    struct chan_state channels[2];
-    mix_init(channels, 2);
-    chan_set(&channels[0], 1, 1, -1);
-    chan_set(&channels[1], 1, 1, 1);
-    chan_push(&channels[0], &test_synth_proto);
-    chan_push(&channels[1], &test_synth_proto);
-    struct sfx_box *box;
-    box = &channels[0].stack[0];
-    box->proto->change(box->state, 0, 440, 0);
-    box = &channels[1].stack[0];
-    box->proto->change(box->state, 0, 440 * 1.5, 0);
-    float samples[16 * 2] = {0};
-    mix_process(channels, 2, 1, samples, 16);
-    chan_drop(&channels[0]);
-    chan_drop(&channels[1]);
-    for (int i = 0; i < 16; i++) {
-        assert(round(100000 * samples[i]) == correct[i]);
-    }
-}
-
 int main(int argc, char **argv) {
     (void) argc;
     (void) argv;
@@ -170,6 +113,5 @@ int main(int argc, char **argv) {
     test_filter();
     test_glide();
     test_noise();
-    test_mix();
     return 0;
 }
