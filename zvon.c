@@ -253,13 +253,13 @@ void lfo_init(struct lfo_state *s, int func, int sign, double freq, double level
 
 double lfo_func(double x, int func) {
     switch (func) {
-    case 1:
+    case WAVE_SIN:
         return sin(x * 2 * PI);
-    case 2:
+    case WAVE_SAW:
         return 2 * x - 1;
-    case 3:
+    case WAVE_SQUARE:
         return 2 * floor(x * 2) - 1;
-    case 4:
+    case WAVE_TRIANGLE:
         return 4 * (x - floor(2 * x) * (2 * x - 1)) - 1;
     default:
         return 0;

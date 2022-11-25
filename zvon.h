@@ -158,4 +158,11 @@ struct sfx_box *chan_push(struct chan_state *c, struct sfx_proto *proto);
 void mix_init(struct chan_state *channels, int num_channels);
 void mix_process(struct chan_state *channels, int num_channels, double vol, float *samples, int num_samples);
 
+enum {
+    WAVE_SIN,
+    WAVE_SAW,
+    WAVE_SQUARE,
+    WAVE_TRIANGLE
+};
+
 #endif
