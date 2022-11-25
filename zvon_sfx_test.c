@@ -7,9 +7,9 @@
 FILE *fp;
 struct chan_state channels[1];
 
-void note_on(double note) {
+void note_on(double freq) {
     struct sfx_box *box = &channels[0].stack[0];
-    box->proto->change(box->state, ZV_NOTE_ON, midi_freq(note), 0);
+    box->proto->change(box->state, ZV_NOTE_ON, freq, 0);
 }
 
 void play(int num_samples) {
@@ -20,9 +20,19 @@ void play(int num_samples) {
 }
 
 void song(void) {
+    double notes[8] = {
+        261.6255653005986,
+        391.99543598174927,
+        329.6275569128699,
+        391.99543598174927,
+        523.2511306011972,
+        391.99543598174927,
+        329.6275569128699,
+        391.99543598174927
+    };
     for (int i = 0; i < 8; i++) {
-        note_on(60 + i);
-        play(sec(0.255));
+        note_on(notes[i]);
+        play(sec(2./8));
     }
 }
 
@@ -35,7 +45,13 @@ int main(int argc, char **argv) {
     struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
     box->proto->change(box->state, ZV_WAVE_TYPE, 2, 0);
     box->proto->change(box->state, ZV_VOLUME, 0.5, 0);
-    box->proto->change(box->state, ZV_WIDTH_LFO_OFFSET, 0.8, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_WAVE_TYPE, 2, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_WAVE_SIGN, -1, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_FREQ, 10, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_LEVEL, 100, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_OFFSET, -100, 0);
+    box->proto->change(box->state, ZV_FREQ_LFO_IS_ONESHOT, 1, 0);
+    box->proto->change(box->state, ZV_WIDTH_LFO_OFFSET, 0.7, 0);
     song();
     chan_drop(&channels[0]);
     fclose(fp);

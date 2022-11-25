@@ -35,6 +35,8 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, fl
     case ZV_NOTE_ON:
         s->freq = val;
         adsr_note_on(&s->adsr);
+        s->freq_lfo.phase = 0;
+        s->width_lfo.phase = 0;
         break;
     case ZV_NOTE_OFF:
         adsr_note_off(&s->adsr);
