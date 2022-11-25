@@ -17,8 +17,8 @@ enum {
     ZV_DECAY_TIME,
     ZV_SUSTAIN_LEVEL,
     ZV_RELEASE_TIME,
-    ZV_GLIDE_MODE,
-    ZV_GLIDE_RATE,
+    ZV_GLIDE_ON,
+    ZV_GLIDE_OFF,
     ZV_END
 };
 

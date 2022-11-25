@@ -23,25 +23,36 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
 
 static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, float *data) {
     (void) data;
-    if (param == ZV_NOTE_ON) {
+    switch (param) {
+    case ZV_NOTE_ON:
         s->freq = val;
         adsr_note_on(&s->adsr);
-    } else if (param == ZV_NOTE_OFF) {
+        break;
+    case ZV_NOTE_OFF:
         adsr_note_off(&s->adsr);
-    } else if (param == ZV_WAVE_TYPE) {
+        break;
+    case ZV_WAVE_TYPE:
         s->wave_type = val;
-    } else if (param == ZV_ATTACK_TIME) {
+        break;
+    case ZV_ATTACK_TIME:
         adsr_set_attack(&s->adsr, val);
-    } else if (param == ZV_DECAY_TIME) {
+        break;
+    case ZV_DECAY_TIME:
         adsr_set_decay(&s->adsr, val);
-    } else if (param == ZV_SUSTAIN_LEVEL) {
+        break;
+    case ZV_SUSTAIN_LEVEL:
         adsr_set_sustain(&s->adsr, val);
-    } else if (param == ZV_RELEASE_TIME) {
+        break;
+    case ZV_RELEASE_TIME:
         adsr_set_release(&s->adsr, val);
-    } else if (param == ZV_GLIDE_MODE) {
-        s->is_glide_on = val;
-    } else if (param == ZV_GLIDE_RATE) {
-        glide_set_rate(&s->glide, val);
+        break;
+    case ZV_GLIDE_ON:
+        glide_init(&s->glide, s->freq, val);
+        s->is_glide_on = 1;
+        break;
+    case ZV_GLIDE_OFF:
+        s->is_glide_on = 0;
+        break;
     }
 }
 
