@@ -1,7 +1,75 @@
 /* Author: Peter Sovietov */
 
 #include <math.h>
+#include <stdlib.h>
 #include "zvon_sfx.h"
+
+void mix_init(struct chan_state *channels, int num_channels) {
+    for (int i = 0; i < num_channels; i++) {
+        struct chan_state *c = &channels[i];
+        chan_set(c, 0, 0, 0);
+        c->stack_size = 0;
+    }
+}
+
+void chan_set(struct chan_state *c, int is_on, double vol, double pan) {
+    c->is_on = is_on;
+    c->vol = vol;
+    c->pan = pan;
+}
+
+void chan_drop(struct chan_state *c) {
+    for (int i = 0; i < c->stack_size; i++) {
+        if (c->stack[i].proto->free) {
+            c->stack[i].proto->free(c->stack[i].state);
+        }
+        free(c->stack[i].state);
+    }
+    c->stack_size = 0;
+}
+
+struct sfx_box *chan_push(struct chan_state *c, struct sfx_proto *proto) {
+    if (c->stack_size < MAX_SFX_BOXES) {
+        struct sfx_box *box = &c->stack[c->stack_size];
+        box->proto = proto;
+        box->state = calloc(1, proto->state_size);
+        if (box->state || !box->proto->state_size) {
+            proto->init(box->state);
+            c->stack_size++;
+            return box;
+        }
+    }
+    return NULL;
+}
+
+static void chan_process(struct sfx_box *stack, int stack_size, double *l, double *r) {
+    for (int i = 0; i < stack_size; i++) {
+        if (stack[i].proto->stereo) {
+            stack[i].proto->stereo(stack[i].state, l, r);
+        } else {
+            *l = stack[i].proto->mono(stack[i].state, *l);
+            *r = *l;
+        }
+    }
+}
+
+void mix_process(struct chan_state *channels, int num_channels, double vol, float *samples, int num_samples) {
+    for (; num_samples; num_samples--, samples += 2) {
+        double left = 0, right = 0;
+        for (int i = 0; i < num_channels; i++) {
+            struct chan_state *c = &channels[i];
+            double l = 0, r = 0;
+            if (c->is_on) {
+                chan_process(c->stack, c->stack_size, &l, &r);
+                double pan = (c->pan + 1) * 0.5;
+                left += c->vol * l * (1 - pan);
+                right += c->vol * r * pan;
+            }
+        }
+        samples[0] = vol * left;
+        samples[1] = vol * right;
+    }
+}
 
 struct sfx_synth_state {
     struct phasor_state phase;
