@@ -204,7 +204,7 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
             offset += lfo_next(&s->lfo[i]);
         }
     }
-    double phase = phasor_next(&s->phase, limit(freq, 0, 15000));
+    double phase = phasor_next(&s->phase, limit(freq, 0, SR * 0.5));
     width = limit(width, 0, 0.9);
     double x = 0;
     if (s->wave_type == ZV_SIN) {

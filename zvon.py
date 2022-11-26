@@ -143,7 +143,7 @@ def lp_next(s, x, width):
     return s.y
 
 def hp_next(s, x, width):
-    return x - lp_next(s, x, width)
+    return x - lp_next(s, x, 1 - width)
 
 class Glide:
     __slots__ = ('source', 'rate')

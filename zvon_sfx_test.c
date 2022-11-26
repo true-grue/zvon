@@ -47,14 +47,14 @@ int main(int argc, char **argv) {
     struct sfx_box *b3 = chan_push(&channels[0], &sfx_filter);
 
     b1->proto->change(b1->state, ZV_WAVE_TYPE, ZV_NOISE);
-    b1->proto->change(b1->state, ZV_VOLUME, 8);
-    b1->proto->change(b1->state, ZV_FREQ_SCALER, 32);
+    b1->proto->change(b1->state, ZV_VOLUME, 32);
+    b1->proto->change(b1->state, ZV_FREQ_SCALER, 50);
 
     b2->proto->change(b2->state, ZV_FILTER_TYPE, ZV_FILTER_HP);
-    b2->proto->change(b2->state, ZV_FILTER_WIDTH, 0.2);
+    b2->proto->change(b2->state, ZV_FILTER_WIDTH, 0.1);
 
     b3->proto->change(b3->state, ZV_FILTER_TYPE, ZV_FILTER_LP);
-    b3->proto->change(b3->state, ZV_FILTER_WIDTH, 0.2);
+    b3->proto->change(b3->state, ZV_FILTER_WIDTH, 0.1);
 
     song();
     chan_drop(&channels[0]);
