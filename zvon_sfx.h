@@ -5,7 +5,7 @@
 
 #include "zvon.h"
 
-typedef void (*sfx_change_func)(void *state, int param, float val, float *data);
+typedef void (*sfx_change_func)(void *state, int param, double val);
 typedef double (*sfx_mono_func)(void *state, double l);
 typedef void (*sfx_stereo_func)(void *state, double *l, double *r);
 typedef void (*sfx_init_func)(void *state);

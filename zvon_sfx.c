@@ -105,8 +105,7 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     s->is_glide_on = 0;
 }
 
-static void sfx_synth_change(struct sfx_synth_state *s, int param, float val, float *data) {
-    (void) data;
+static void sfx_synth_change(struct sfx_synth_state *s, int param, double val) {
     switch (param) {
     case ZV_VOLUME:
         s->vol = val;
@@ -216,8 +215,7 @@ static void sfx_delay_init(struct sfx_delay_state *s) {
     delay_init(&s->d, s->delay_buf, sec(0.5), 0.5, 0.5);
 }
 
-static void sfx_delay_change(struct sfx_delay_state *s, int param, float val, float *user) {
-    (void) user;
+static void sfx_delay_change(struct sfx_delay_state *s, int param, double val) {
     if (param == ZV_VOLUME) {
         s->d.level = val;
     } else if (param == ZV_TIME) {
@@ -250,8 +248,7 @@ static void sfx_dist_init(struct sfx_dist_state *s) {
     s->vol = 1;
 }
 
-static void sfx_dist_change(struct sfx_dist_state *s, int param, float val, float *user) {
-    (void) user;
+static void sfx_dist_change(struct sfx_dist_state *s, int param, double val) {
     if (param == ZV_VOLUME) {
         s->vol = val;
     } else if (param == ZV_GAIN) {

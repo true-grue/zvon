@@ -9,7 +9,7 @@ struct chan_state channels[1];
 
 void note_on(double freq) {
     struct sfx_box *box = &channels[0].stack[0];
-    box->proto->change(box->state, ZV_NOTE_ON, freq, 0);
+    box->proto->change(box->state, ZV_NOTE_ON, freq);
 }
 
 void play(int num_samples) {
@@ -44,26 +44,26 @@ int main(int argc, char **argv) {
     chan_set(&channels[0], 1, 1, 0);
     struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
 
-    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_SQUARE, 0);
-    box->proto->change(box->state, ZV_WAVE_WIDTH, 0, 0);
-    box->proto->change(box->state, ZV_VOLUME, 0.5, 0);
+    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_SQUARE);
+    box->proto->change(box->state, ZV_WAVE_WIDTH, 0);
+    box->proto->change(box->state, ZV_VOLUME, 0.5);
 
-    box->proto->change(box->state, ZV_LFO_SELECT, 0, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1, 0);
-    box->proto->change(box->state, ZV_LFO_FREQ, 15, 0);
-    box->proto->change(box->state, ZV_LFO_LEVEL, 100, 0);
-    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1, 0);
+    box->proto->change(box->state, ZV_LFO_SELECT, 0);
+    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW);
+    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1);
+    box->proto->change(box->state, ZV_LFO_FREQ, 15);
+    box->proto->change(box->state, ZV_LFO_LEVEL, 100);
+    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1);
 
-    box->proto->change(box->state, ZV_LFO_SELECT, 1, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1, 0);
-    box->proto->change(box->state, ZV_LFO_FREQ, 15, 0);
-    box->proto->change(box->state, ZV_LFO_LEVEL, 0.5, 0);
-    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1, 0);
+    box->proto->change(box->state, ZV_LFO_SELECT, 1);
+    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW);
+    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1);
+    box->proto->change(box->state, ZV_LFO_FREQ, 15);
+    box->proto->change(box->state, ZV_LFO_LEVEL, 0.5);
+    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1);
 
-    box->proto->change(box->state, ZV_LFO_TO_FREQ, 0, 0);
-    box->proto->change(box->state, ZV_LFO_TO_WIDTH, 1, 0);
+    box->proto->change(box->state, ZV_LFO_TO_FREQ, 0);
+    box->proto->change(box->state, ZV_LFO_TO_WIDTH, 1);
 
     song();
     chan_drop(&channels[0]);
