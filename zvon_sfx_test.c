@@ -28,21 +28,11 @@ void song(void) {
         523.2511306011972,
         391.99543598174927,
         329.6275569128699,
-        391.99543598174927,
-
-        261.6255653005986,
-        391.99543598174927,
-        329.6275569128699,
-        391.99543598174927,
-        523.2511306011972,
-        391.99543598174927,
-        329.6275569128699,
         391.99543598174927
-
     };
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 8; i++) {
         note_on(notes[i]);
-        play(sec(0.5));
+        play(sec(0.25));
     }
 }
 
@@ -52,10 +42,19 @@ int main(int argc, char **argv) {
     fp = fopen("sfx_test.pcm", "wb");
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
-    struct sfx_box *box = chan_push(&channels[0], &sfx_synth);
+    struct sfx_box *b1 = chan_push(&channels[0], &sfx_synth);
+    struct sfx_box *b2 = chan_push(&channels[0], &sfx_filter);
+    struct sfx_box *b3 = chan_push(&channels[0], &sfx_filter);
 
-    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_NOISE);
-    box->proto->change(box->state, ZV_VOLUME, 0.8);
+    b1->proto->change(b1->state, ZV_WAVE_TYPE, ZV_NOISE);
+    b1->proto->change(b1->state, ZV_VOLUME, 8);
+    b1->proto->change(b1->state, ZV_FREQ_SCALER, 32);
+
+    b2->proto->change(b2->state, ZV_FILTER_TYPE, ZV_FILTER_HP);
+    b2->proto->change(b2->state, ZV_FILTER_WIDTH, 0.2);
+
+    b3->proto->change(b3->state, ZV_FILTER_TYPE, ZV_FILTER_LP);
+    b3->proto->change(b3->state, ZV_FILTER_WIDTH, 0.2);
 
     song();
     chan_drop(&channels[0]);
