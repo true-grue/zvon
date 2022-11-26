@@ -30,9 +30,9 @@ void song(void) {
         329.6275569128699,
         391.99543598174927
     };
-    for (int i = 0; i < 1; i++) {
-        note_on(150);
-        play(sec(1));
+    for (int i = 0; i < 8; i++) {
+        note_on(notes[i] * 2);
+        play(sec(0.5));
     }
 }
 
@@ -42,28 +42,21 @@ int main(int argc, char **argv) {
     fp = fopen("sfx_test.pcm", "wb");
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
-    struct sfx_box *box = chan_push(&channels[0], &sfx_synth);    
+    struct sfx_box *box = chan_push(&channels[0], &sfx_synth);
+    chan_push(&channels[0], &sfx_delay);
 
-    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_SQUARE);
-    box->proto->change(box->state, ZV_WAVE_WIDTH, 0);
+    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_FM);
+    box->proto->change(box->state, ZV_WAVE_WIDTH, 0.6);
+    box->proto->change(box->state, ZV_WAVE_OFFSET, 0.25);
     box->proto->change(box->state, ZV_VOLUME, 0.5);
+    box->proto->change(box->state, ZV_DECAY_TIME, 0.5);
 
     box->proto->change(box->state, ZV_LFO_SELECT, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW);
-    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1);
-    box->proto->change(box->state, ZV_LFO_FREQ, 15);
-    box->proto->change(box->state, ZV_LFO_LEVEL, 100);
-    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1);
-
-    box->proto->change(box->state, ZV_LFO_SELECT, 1);
-    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_SAW);
-    box->proto->change(box->state, ZV_LFO_WAVE_SIGN, -1);
-    box->proto->change(box->state, ZV_LFO_FREQ, 15);
-    box->proto->change(box->state, ZV_LFO_LEVEL, 0.5);
-    box->proto->change(box->state, ZV_LFO_IS_ONESHOT, 1);
+    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_TRIANGLE);
+    box->proto->change(box->state, ZV_LFO_FREQ, 5);
+    box->proto->change(box->state, ZV_LFO_LEVEL, 5);
 
     box->proto->change(box->state, ZV_LFO_TO_FREQ, 0);
-    box->proto->change(box->state, ZV_LFO_TO_WIDTH, 1);
 
     song();
     chan_drop(&channels[0]);
