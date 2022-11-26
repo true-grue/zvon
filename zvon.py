@@ -170,11 +170,19 @@ def noise_init(s, size, taps):
     s.phase = 0
 
 def noise_next(s, freq):
+    old_phase = s.phase
+    s.phase = (s.phase + freq * (1 / SR)) % 1
+    if old_phase >= s.phase:
+        s.state = lfsr(s.state, s.size, s.taps);
+    return 2 * (s.state & 1) - 1
+
+'''
     s.phase += freq * (1 / SR)
     if s.phase >= 1:
         s.phase -= 1
         s.state = lfsr(s.state, s.size, s.taps)
     return 2 * (s.state & 1) - 1
+'''
 
 class Chan:
     __slots__ = ('is_on', 'pan', 'vol', 'stack', 'stack_size')

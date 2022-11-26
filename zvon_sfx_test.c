@@ -20,7 +20,16 @@ void play(int num_samples) {
 }
 
 void song(void) {
-    double notes[8] = {
+    double notes[] = {
+        261.6255653005986,
+        391.99543598174927,
+        329.6275569128699,
+        391.99543598174927,
+        523.2511306011972,
+        391.99543598174927,
+        329.6275569128699,
+        391.99543598174927,
+
         261.6255653005986,
         391.99543598174927,
         329.6275569128699,
@@ -29,9 +38,10 @@ void song(void) {
         391.99543598174927,
         329.6275569128699,
         391.99543598174927
+
     };
-    for (int i = 0; i < 8; i++) {
-        note_on(notes[i] * 2);
+    for (int i = 0; i < 16; i++) {
+        note_on(notes[i]);
         play(sec(0.5));
     }
 }
@@ -43,21 +53,9 @@ int main(int argc, char **argv) {
     mix_init(channels, 1);
     chan_set(&channels[0], 1, 1, 0);
     struct sfx_box *box = chan_push(&channels[0], &sfx_synth);
-    chan_push(&channels[0], &sfx_delay);
 
-    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_FM);
-    box->proto->change(box->state, ZV_WAVE_WIDTH, 0.6);
-    box->proto->change(box->state, ZV_WAVE_OFFSET, 3);
-    box->proto->change(box->state, ZV_VOLUME, 0.5);
-    box->proto->change(box->state, ZV_DECAY_TIME, 0.5);
-    box->proto->change(box->state, ZV_FREQ_SCALER, 0.5);
-
-    box->proto->change(box->state, ZV_LFO_SELECT, 0);
-    box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_TRIANGLE);
-    box->proto->change(box->state, ZV_LFO_FREQ, 5);
-    box->proto->change(box->state, ZV_LFO_LEVEL, 5);
-
-    box->proto->change(box->state, ZV_LFO_TO_FREQ, 0);
+    box->proto->change(box->state, ZV_WAVE_TYPE, ZV_NOISE);
+    box->proto->change(box->state, ZV_VOLUME, 0.8);
 
     song();
     chan_drop(&channels[0]);
