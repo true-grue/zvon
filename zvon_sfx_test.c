@@ -47,9 +47,10 @@ int main(int argc, char **argv) {
 
     box->proto->change(box->state, ZV_WAVE_TYPE, ZV_FM);
     box->proto->change(box->state, ZV_WAVE_WIDTH, 0.6);
-    box->proto->change(box->state, ZV_WAVE_OFFSET, 0.25);
+    box->proto->change(box->state, ZV_WAVE_OFFSET, 3);
     box->proto->change(box->state, ZV_VOLUME, 0.5);
     box->proto->change(box->state, ZV_DECAY_TIME, 0.5);
+    box->proto->change(box->state, ZV_FREQ_SCALER, 0.5);
 
     box->proto->change(box->state, ZV_LFO_SELECT, 0);
     box->proto->change(box->state, ZV_LFO_WAVE_TYPE, ZV_TRIANGLE);
