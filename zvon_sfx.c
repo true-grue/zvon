@@ -160,10 +160,14 @@ static double osc_next(struct osc_state *s, double amp, double freq, double widt
         return amp * pwm(phasor_next(&s->phasor1, freq), offset, w);
     case OSC_NOISE:
         noise_set_width(&s->noise1, amp);
+        return sin(phasor_next(&s->phasor2, freq + noise_lerp_next(&s->noise1, width)));
+    case OSC_SNARE:
+        noise_set_width(&s->noise1, amp);
         double y1 = sin(phasor_next(&s->phasor1, freq));
         double y2 = sin(phasor_next(&s->phasor2, offset + noise_lerp_next(&s->noise1, width)));
         return y1 + y2;
     }
+
     return 0;
 }
 
