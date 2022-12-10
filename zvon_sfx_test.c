@@ -77,7 +77,7 @@ void bass_drum_preset(struct sfx_box *box) {
 }
 
 void snare_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_MODE, 0, OSC_NOISE);
+    sfx_box_change(box, ZV_MODE, 0, OSC_SNARE);
     sfx_box_change(box, ZV_AMP, 0, 10000);
     sfx_box_change(box, ZV_WIDTH, 0, 10000);
     sfx_box_change(box, ZV_OFFSET, 0, 0);
