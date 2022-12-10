@@ -3,6 +3,16 @@
 #include <math.h>
 #include "zvon_sfx.h"
 
+void sfx_box_change(struct sfx_box *box, int param, int elem, double val) {
+    switch (param) {
+    case ZV_VOLUME:
+        sfx_box_set_vol(box, val);
+        break;
+    default:
+        box->proto->change(box->state, param, elem, val);
+    }
+}
+
 struct osc_state {
     int mode;
     struct phasor_state phasor1;

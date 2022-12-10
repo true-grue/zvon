@@ -5,7 +5,10 @@
 
 #include "zvon_mixer.h"
 
+void sfx_box_change(struct sfx_box *box, int param, int elem, double val);
+
 enum {
+    ZV_VOLUME,
     ZV_NOTE_ON,
     ZV_NOTE_OFF,
     ZV_GLIDE_ON,
