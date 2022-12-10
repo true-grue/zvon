@@ -51,13 +51,13 @@ void song(void) {
 void bass_drum_preset(struct sfx_box *box) {
     box->proto->change(box->state, ZV_MODE, 0, OSC_SQUARE);
     box->proto->change(box->state, ZV_WIDTH, 0, 0);
-    box->proto->change(box->state, ZV_DECAY, 0, 0.5);
+    box->proto->change(box->state, ZV_DECAY, 0, 0.2);
     box->proto->change(box->state, ZV_SUSTAIN, 0, 0);
     box->proto->change(box->state, ZV_RELEASE, 0, 0);
     box->proto->change(box->state, ZV_LFO_ASSIGN, 0, LFO_TARGET_FREQ);
     box->proto->change(box->state, ZV_LFO_FUNC, 0, LFO_SAW);
-    box->proto->change(box->state, ZV_LFO_FREQ, 0, 15);
-    box->proto->change(box->state, ZV_LFO_LOW, 0, 120);
+    box->proto->change(box->state, ZV_LFO_FREQ, 0, 25);
+    box->proto->change(box->state, ZV_LFO_LOW, 0, 150);
     box->proto->change(box->state, ZV_LFO_HIGH, 0, -120);
     box->proto->change(box->state, ZV_LFO_LOOP, 0, 0);
     box->proto->change(box->state, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
@@ -84,8 +84,8 @@ void snare_drum_preset(struct sfx_box *box) {
     box->proto->change(box->state, ZV_LFO_LOOP, 0, 0);
     box->proto->change(box->state, ZV_LFO_ASSIGN, 1, LFO_TARGET_OFFSET);
     box->proto->change(box->state, ZV_LFO_FUNC, 1, LFO_SAW);
-    box->proto->change(box->state, ZV_LFO_FREQ, 1, 8);
-    box->proto->change(box->state, ZV_LFO_LOW, 1, 8000);
+    box->proto->change(box->state, ZV_LFO_FREQ, 1, 5);
+    box->proto->change(box->state, ZV_LFO_LOW, 1, 10000);
     box->proto->change(box->state, ZV_LFO_HIGH, 1, 5000);
     box->proto->change(box->state, ZV_LFO_LOOP, 1, 0);
 }
@@ -104,8 +104,7 @@ int main(int argc, char **argv) {
     sfx_box_set_vol(box1, 0.8);
     struct sfx_box *box2 = chan_push(&channels[1], &sfx_synth);
     snare_drum_preset(box2);
-    struct sfx_box *box3 = chan_push(&channels[1], &sfx_dist);
-    box3->proto->change(box3->state, ZV_GAIN, 0, 0.2);
+    sfx_box_set_vol(box2, 0.7);
     song();
     chan_drop(&channels[0]);
     chan_drop(&channels[1]);
