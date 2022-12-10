@@ -89,11 +89,11 @@ struct noise_state {
     unsigned int state;
     unsigned int old_y;
     unsigned int y;
-    int width;
+    unsigned int width;
 };
 
 void noise_init(struct noise_state *s);
-void noise_set_width(struct noise_state *s, double width);
+void noise_set_width(struct noise_state *s, unsigned int width);
 double noise_lerp_next(struct noise_state *s, double freq);
 double noise_next(struct noise_state *s, double freq);
 

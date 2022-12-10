@@ -213,8 +213,9 @@ void noise_init(struct noise_state *s) {
     noise_set_width(s, 2);
 }
 
-void noise_set_width(struct noise_state *s, double width) {
-    s->width = width + 1;
+void noise_set_width(struct noise_state *s, unsigned int width) {
+    width += 1;
+    s->width = width < 2 ? 2 : width;
 }
 
 double noise_lerp_next(struct noise_state *s, double freq) {
