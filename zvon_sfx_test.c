@@ -101,9 +101,11 @@ int main(int argc, char **argv) {
     chan_set_vol(&channels[1], 1);
     struct sfx_box *box1 = chan_push(&channels[0], &sfx_synth);
     bass_drum_preset(box1);
+    sfx_box_set_vol(box1, 0.8);
     struct sfx_box *box2 = chan_push(&channels[1], &sfx_synth);
     snare_drum_preset(box2);
-    sfx_box_set_vol(box2, 0.5);
+    struct sfx_box *box3 = chan_push(&channels[1], &sfx_dist);
+    box3->proto->change(box3->state, ZV_GAIN, 0, 0.2);
     song();
     chan_drop(&channels[0]);
     chan_drop(&channels[1]);
