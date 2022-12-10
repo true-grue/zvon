@@ -22,7 +22,7 @@ enum {
     ZV_AMP,
     ZV_WIDTH,
     ZV_OFFSET,
-    ZV_REMAP_FREQ,
+    ZV_REMAP,
     ZV_LFO_FUNC,
     ZV_LFO_FREQ,
     ZV_LFO_LOW,

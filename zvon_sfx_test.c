@@ -22,6 +22,13 @@ void zv_note_off(int chan) {
 void play(int num_samples) {
     float *samples = calloc(num_samples * 2, sizeof(float));
     mix_process(channels, CHANNELS, 1, samples, num_samples);
+    double s_min = samples[0];
+    double s_max = samples[0];
+    for (int i = 0; i < num_samples * 2; i++) {
+        s_min = MIN(s_min, samples[i]);
+        s_max = MAX(s_max, samples[i]);
+    }
+    printf("%f %f\n", s_min, s_max);
     fwrite(samples, num_samples * 2, sizeof(float), fp);
     free(samples);
 }
