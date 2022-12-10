@@ -58,7 +58,7 @@ void bass_drum_preset(struct sfx_box *box) {
     box->proto->change(box->state, ZV_LFO_FUNC, 0, LFO_SAW);
     box->proto->change(box->state, ZV_LFO_FREQ, 0, 25);
     box->proto->change(box->state, ZV_LFO_LOW, 0, 150);
-    box->proto->change(box->state, ZV_LFO_HIGH, 0, -120);
+    box->proto->change(box->state, ZV_LFO_HIGH, 0, -50);
     box->proto->change(box->state, ZV_LFO_LOOP, 0, 0);
     box->proto->change(box->state, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     box->proto->change(box->state, ZV_LFO_FUNC, 1, LFO_SAW);
