@@ -53,11 +53,11 @@ enum {
 #define SYNTH_LFOS 4
 
 enum {
-    LFO_TARGET_AMP,
-    LFO_TARGET_FREQ,
-    LFO_TARGET_WIDTH,
-    LFO_TARGET_OFFSET,
-    LFO_TARGETS
+    LFO_PARAM_AMP,
+    LFO_PARAM_FREQ,
+    LFO_PARAM_WIDTH,
+    LFO_PARAM_OFFSET,
+    LFO_PARAMS
 };
 
 extern struct sfx_proto sfx_synth;
