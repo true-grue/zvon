@@ -199,22 +199,22 @@ struct sfx_proto sfx_synth = {
     .state_size = sizeof(struct sfx_synth_state)
 };
 
-#define SFX_DELAY_MAX_SIZE 65536
+#define SFX_DELAY_BUF_SIZE 65536
 
 struct sfx_delay_state {
     struct delay_state delay1;
-    double buf[SFX_DELAY_MAX_SIZE];
+    double buf[SFX_DELAY_BUF_SIZE];
 };
 
 static void sfx_delay_init(struct sfx_delay_state *s) {
-    delay_init(&s->delay1, s->buf, SFX_DELAY_MAX_SIZE);
+    delay_init(&s->delay1, s->buf, SFX_DELAY_BUF_SIZE);
 }
 
 static void sfx_delay_change(struct sfx_delay_state *s, int param, int elem, double val) {
     (void) elem;
     switch (param) {
-    case ZV_SIZE:
-        delay_set_size(&s->delay1, val);
+    case ZV_TIME:
+        delay_set_time(&s->delay1, val);
         break;
     case ZV_LEVEL:
         delay_set_level(&s->delay1, val);

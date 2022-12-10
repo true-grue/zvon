@@ -28,7 +28,7 @@ enum {
     ZV_LFO_HIGH,
     ZV_LFO_LOOP,
     ZV_LFO_ASSIGN,
-    ZV_SIZE,
+    ZV_TIME,
     ZV_LEVEL,
     ZV_FEEDBACK,
     ZV_GAIN,

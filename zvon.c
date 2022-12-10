@@ -151,8 +151,8 @@ void delay_init(struct delay_state *s, double *buf, int buf_size) {
     delay_set_fb(s, 0.5);
 }
 
-void delay_set_size(struct delay_state *s, double size) {
-    s->size = limit(sec(size), 1, s->buf_size);
+void delay_set_time(struct delay_state *s, double time) {
+    s->size = limit(sec(time), 1, s->buf_size);
 }
 
 void delay_set_level(struct delay_state *s, double level) {

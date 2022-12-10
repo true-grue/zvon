@@ -61,7 +61,7 @@ struct delay_state {
 };
 
 void delay_init(struct delay_state *s, double *buf, int buf_size);
-void delay_set_size(struct delay_state *s, double size);
+void delay_set_time(struct delay_state *s, double time);
 void delay_set_level(struct delay_state *s, double level);
 void delay_set_fb(struct delay_state *s, double fb);
 double delay_next(struct delay_state *s, double x);
