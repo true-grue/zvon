@@ -77,7 +77,7 @@ void bass_drum_preset(struct sfx_box *box) {
 }
 
 void snare_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_MODE, 0, OSC_SNARE);
+    sfx_box_change(box, ZV_MODE, 0, OSC_NOISE);
     sfx_box_change(box, ZV_AMP, 0, 10000);
     sfx_box_change(box, ZV_WIDTH, 0, 10000);
     sfx_box_change(box, ZV_OFFSET, 0, 0);
@@ -121,10 +121,10 @@ int main(int argc, char **argv) {
         chan_set_vol(&channels[i], 1);
     }
     chan_set_on(&channels[0], 1);
-    chan_set_pan(&channels[0], -0.5);
     chan_set_on(&channels[1], 1);
-    chan_set_pan(&channels[1], 0.5);
     chan_set_on(&channels[2], 1);
+    chan_set_pan(&channels[0], -0.5);
+    chan_set_pan(&channels[1], 0.5);
     chan_set_pan(&channels[2], 0);
     struct sfx_box *box1 = chan_push(&channels[0], &sfx_synth);
     bass_drum_preset(box1);
