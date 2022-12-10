@@ -177,10 +177,10 @@ static double osc_next(struct osc_state *s, double *lfo_param) {
         return amp * dsf2(phasor_next(&s->phasor1, freq), offset, w);
     case OSC_PWM:
         return amp * pwm(phasor_next(&s->phasor1, freq), offset, w);
-    case OSC_NOISE:
+    case OSC_NOISE8:
         noise_set_width(&s->noise1, 2);
         return noise_next(&s->noise1, freq);
-    case OSC_SNARE:
+    case OSC_SIN_NOISE:
         noise_set_width(&s->noise1, amp);
         double y1 = sin(phasor_next(&s->phasor1, freq));
         double y2 = sin(phasor_next(&s->phasor2, offset + noise_lerp_next(&s->noise1, width)));

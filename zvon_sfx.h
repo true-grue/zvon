@@ -46,8 +46,8 @@ enum {
     OSC_DSF,
     OSC_DSF2,
     OSC_PWM,
-    OSC_NOISE,
-    OSC_SNARE
+    OSC_NOISE8,
+    OSC_SIN_NOISE
 };
 
 #define SYNTH_LFOS 4
