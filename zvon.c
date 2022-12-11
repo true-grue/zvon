@@ -117,24 +117,28 @@ void adsr_note_off(struct adsr_state *s) {
 }
 
 double adsr_next(struct adsr_state *s, int is_sustain_on) {
-    if (s->state == ADSR_ATTACK) {
+    switch (s->state) {
+    case ADSR_ATTACK:
         s->level += s->attack_step;
         if (s->level >= 1) {
             s->level = 1;
             s->state = ADSR_DECAY;
         }
-    } else if (s->state == ADSR_DECAY) {
+        break;
+    case ADSR_DECAY:
         s->level -= s->decay_step;
         if (s->level <= s->sustain) {
             s->level = s->sustain;
             s->state = is_sustain_on ? ADSR_SUSTAIN : ADSR_RELEASE;
         }
-    } else if (s->state == ADSR_RELEASE) {
+        break;
+    case ADSR_RELEASE:
         s->level -= s->release_step;
         if (s->level <= 0) {
             s->level = 0;
             s->state = ADSR_END;
         }
+        break;
     }
     return s->level;
 }

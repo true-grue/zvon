@@ -94,7 +94,7 @@ void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
-    sfx_box_change(box, ZV_LFO_FREQ, 1, 10);
+    sfx_box_change(box, ZV_LFO_FREQ, 1, 15);
     sfx_box_change(box, ZV_LFO_LOW, 1, 0.9);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 0.1);
     sfx_box_change(box, ZV_LFO_LOOP, 1, 0);
@@ -160,7 +160,6 @@ void lead_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_SEQ_POS, 0, 2);
     sfx_box_change(box, ZV_LFO_SEQ_VAL, 0, semi(12));
     sfx_box_change(box, ZV_LFO_SEQ_SIZE, 0, 3);
-
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 10);
