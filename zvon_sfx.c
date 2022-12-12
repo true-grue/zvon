@@ -214,6 +214,7 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     }
     double freq = s->is_glide_on ? glide_next(&s->glide, s->freq) : s->freq;
     freq *= s->lfo_param[s->lfo_remap[LFO_TARGET_FREQ_MUL]];
+    freq += s->lfo_param[s->lfo_remap[LFO_TARGET_FREQ]];
     s->lfo_param[s->lfo_remap[LFO_TARGET_FREQ]] += freq;
     double y = osc_next(&s->osc, s->lfo_param);
     return y * adsr_next(&s->adsr, s->is_sustain_on);
