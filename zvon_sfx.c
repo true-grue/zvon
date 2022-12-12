@@ -88,7 +88,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
     case ZV_NOTE_OFF:
         adsr_note_off(&s->adsr);
         break;
-    case ZV_IS_GLIDE_ON:
+    case ZV_SET_GLIDE_ON:
         glide_set_source(&s->glide, s->freq);
         s->is_glide_on = val;
         break;
@@ -107,7 +107,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
     case ZV_RELEASE:
         adsr_set_release(&s->adsr, val);
         break;
-    case ZV_IS_SUSTAIN_ON:
+    case ZV_SET_SUSTAIN_ON:
         s->is_sustain_on = val;
         break;
     case ZV_FREQ_MUL:
