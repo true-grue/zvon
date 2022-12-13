@@ -91,13 +91,13 @@ void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_FREQ, 0, 25);
     sfx_box_change(box, ZV_LFO_LOW, 0, 150);
     sfx_box_change(box, ZV_LFO_HIGH, 0, -50);
-    sfx_box_change(box, ZV_LFO_LOOP, 0, 0);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 20);
     sfx_box_change(box, ZV_LFO_LOW, 1, 0.65);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 0.1);
-    sfx_box_change(box, ZV_LFO_LOOP, 1, 0);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
 }
 
 void snare_drum_preset(struct sfx_box *box) {
@@ -113,13 +113,13 @@ void snare_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
     sfx_box_change(box, ZV_LFO_LOW, 0, 150);
     sfx_box_change(box, ZV_LFO_HIGH, 0, 0);
-    sfx_box_change(box, ZV_LFO_LOOP, 0, 0);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_OFFSET);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 5);
     sfx_box_change(box, ZV_LFO_LOW, 1, 10000);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 5000);
-    sfx_box_change(box, ZV_LFO_LOOP, 1, 0);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
 }
 
 void bass_synth_preset(struct sfx_box *box) {
@@ -132,7 +132,7 @@ void bass_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_FREQ, 0, 5);
     sfx_box_change(box, ZV_LFO_LOW, 0, 0.8);
     sfx_box_change(box, ZV_LFO_HIGH, 0, 0.3);
-    sfx_box_change(box, ZV_LFO_LOOP, 0, 1);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 1);
 }
 
 double semi(double x) {
@@ -152,7 +152,7 @@ void lead_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
     sfx_box_change(box, ZV_LFO_LOW, 0, 0);
     sfx_box_change(box, ZV_LFO_HIGH, 0, 1);
-    sfx_box_change(box, ZV_LFO_LOOP, 0, 1);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 1);
     sfx_box_change(box, ZV_LFO_SEQ_POS, 0, 0);
     sfx_box_change(box, ZV_LFO_SEQ_VAL, 0, semi(0));
     sfx_box_change(box, ZV_LFO_SEQ_POS, 0, 1);
@@ -165,7 +165,7 @@ void lead_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_FREQ, 1, 10);
     sfx_box_change(box, ZV_LFO_LOW, 1, 0.75);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 0);
-    sfx_box_change(box, ZV_LFO_LOOP, 1, 1);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 1);
 }
 
 int main(int argc, char **argv) {

@@ -126,7 +126,7 @@ struct lfo_state {
 
 void lfo_init(struct lfo_state *s);
 void lfo_reset(struct lfo_state *s);
-void lfo_set_reset_on(struct lfo_state *s, int is_reset_on);
+void lfo_set_reset(struct lfo_state *s, int is_reset_on);
 void lfo_set_func(struct lfo_state *s, int func);
 void lfo_set_freq(struct lfo_state *s, double freq);
 void lfo_set_low(struct lfo_state *s, double low);
@@ -135,7 +135,7 @@ void lfo_set_loop(struct lfo_state *s, int is_loop);
 void lfo_set_seq_pos(struct lfo_state *s, int pos);
 void lfo_set_seq_val(struct lfo_state *s, double val);
 void lfo_set_seq_size(struct lfo_state *s, int size);
-void lfo_set_lin_seq_on(struct lfo_state *s, int is_lin_seq);
+void lfo_set_lin_seq(struct lfo_state *s, int is_lin_seq);
 double lfo_next(struct lfo_state *s);
 
 #endif
