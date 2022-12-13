@@ -203,7 +203,7 @@ static double osc_next(struct osc_state *s, double *lfo_param) {
         noise_set_width(&s->noise1, 2);
         return amp * noise_next(&s->noise1, freq);
     case OSC_LIN_NOISE:
-        noise_set_width(&s->noise1, 2);
+        noise_set_width(&s->noise1, width);
         return amp * noise_lin_next(&s->noise1, freq);
     case OSC_RESO_NOISE:
         noise_set_width(&s->noise1, amp);
