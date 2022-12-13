@@ -155,15 +155,19 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         lfo_set_reset_on(&s->lfo[elem], val);
         break;
     case ZV_LFO_SEQ_POS:
+        elem = limit(elem, 0, SYNTH_LFOS - 1);
         lfo_set_seq_pos(&s->lfo[elem], val);
         break;
     case ZV_LFO_SEQ_VAL:
+        elem = limit(elem, 0, SYNTH_LFOS - 1);
         lfo_set_seq_val(&s->lfo[elem], val);
         break;
     case ZV_LFO_SEQ_SIZE:
+        elem = limit(elem, 0, SYNTH_LFOS - 1);
         lfo_set_seq_size(&s->lfo[elem], val);
         break;
     case ZV_LFO_SET_LIN_SEQ_ON:
+        elem = limit(elem, 0, SYNTH_LFOS - 1);
         lfo_set_lin_seq_on(&s->lfo[elem], val);
         break;
     case ZV_LFO_ASSIGN:
