@@ -71,9 +71,7 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
 
 static void lfo_note_on(struct sfx_synth_state *s) {
     for (int i = 0; i < SYNTH_LFOS; i++) {
-        if (s->lfo[i].func == LFO_SEQ || !s->lfo[i].is_loop) {
-            lfo_reset(&s->lfo[i]);
-        }
+        lfo_reset(&s->lfo[i]);
     }
 }
 
@@ -152,6 +150,10 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         elem = limit(elem, 0, SYNTH_LFOS - 1);
         lfo_set_loop(&s->lfo[elem], val);
         break;
+    case ZV_LFO_SET_RESET_ON:
+        elem = limit(elem, 0, SYNTH_LFOS - 1);
+        lfo_set_reset_on(&s->lfo[elem], val);
+        break;
     case ZV_LFO_SEQ_POS:
         lfo_set_seq_pos(&s->lfo[elem], val);
         break;
@@ -160,6 +162,9 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         break;
     case ZV_LFO_SEQ_SIZE:
         lfo_set_seq_size(&s->lfo[elem], val);
+        break;
+    case ZV_LFO_SET_LIN_SEQ_ON:
+        lfo_set_lin_seq_on(&s->lfo[elem], val);
         break;
     case ZV_LFO_ASSIGN:
         elem = limit(elem, 0, SYNTH_LFOS - 1);
