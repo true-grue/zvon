@@ -81,7 +81,7 @@ void play_song(double song[][CHANNELS], int song_size, int num_chans, double vol
 }
 
 void bass_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_MODE, 0, OSC_SQUARE);
+    sfx_box_change(box, ZV_MODE, 0, OSC_SAW);
     sfx_box_change(box, ZV_WIDTH, 0, 0);
     sfx_box_change(box, ZV_DECAY, 0, 0.3);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
@@ -95,7 +95,7 @@ void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 20);
-    sfx_box_change(box, ZV_LFO_LOW, 1, 0.8);
+    sfx_box_change(box, ZV_LFO_LOW, 1, 0.65);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 0.1);
     sfx_box_change(box, ZV_LFO_LOOP, 1, 0);
 }
@@ -198,11 +198,11 @@ int main(int argc, char **argv) {
     struct sfx_box *box5 = chan_push(&channels[3], &sfx_delay);
     sfx_box_change(box5, ZV_TIME, 0, 0.2);
     sfx_box_change(box4, ZV_VOLUME, 0, 0.1);
-    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 2, 0.7);
-    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.7);
-    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.7);
-    play_song(song, (sizeof(song) / sizeof(song[0])), 4, 0.7);
-    play_song(song, (sizeof(song) / sizeof(song[0])), 4, 0.7);
+    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 2, 0.8);
+    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.8);
+    play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.8);
+    play_song(song, (sizeof(song) / sizeof(song[0])), 4, 0.8);
+    play_song(song, (sizeof(song) / sizeof(song[0])), 4, 0.8);
     for (int i = 0; i < CHANNELS; i++) {
         chan_drop(&channels[i]);
     }
