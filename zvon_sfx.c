@@ -83,7 +83,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         adsr_note_on(&s->adsr, 0);
         lfo_note_on(s);
         break;
-    case ZV_SET_FREQ:
+    case ZV_FREQ:
         s->freq = val;
         break;
     case ZV_NOTE_OFF:

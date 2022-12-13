@@ -11,7 +11,7 @@ enum {
     ZV_VOLUME,
     ZV_NOTE_ON,
     ZV_NOTE_OFF,
-    ZV_SET_FREQ,
+    ZV_FREQ,
     ZV_SET_GLIDE,
     ZV_GLIDE_RATE,
     ZV_FREQ_MUL,
