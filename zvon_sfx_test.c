@@ -81,7 +81,7 @@ void play_song(double song[][CHANNELS], int song_size, int num_chans, double vol
 }
 
 void bass_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_MODE, 0, OSC_SAW);
+    sfx_box_change(box, ZV_MODE, 0, OSC_SQUARE);
     sfx_box_change(box, ZV_WIDTH, 0, 0);
     sfx_box_change(box, ZV_DECAY, 0, 0.3);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
@@ -89,13 +89,13 @@ void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_ASSIGN, 0, LFO_TARGET_FREQ);
     sfx_box_change(box, ZV_LFO_FUNC, 0, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 0, 25);
-    sfx_box_change(box, ZV_LFO_LOW, 0, 150);
+    sfx_box_change(box, ZV_LFO_LOW, 0, 250);
     sfx_box_change(box, ZV_LFO_HIGH, 0, -50);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_WIDTH);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 20);
-    sfx_box_change(box, ZV_LFO_LOW, 1, 0.65);
+    sfx_box_change(box, ZV_LFO_LOW, 1, 0.3);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 0.1);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
 }
