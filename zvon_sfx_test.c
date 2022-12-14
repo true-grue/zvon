@@ -101,10 +101,10 @@ void bass_drum_preset(struct sfx_box *box) {
 }
 
 void snare_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_MODE, 0, OSC_SIN_RESO_NOISE);
-    sfx_box_change(box, ZV_AMP, 0, 10000);
+    sfx_box_change(box, ZV_MODE, 0, OSC_SIN_RLNOISE);
+    sfx_box_change(box, ZV_AMP, 0, 0);
     sfx_box_change(box, ZV_WIDTH, 0, 10000);
-    sfx_box_change(box, ZV_OFFSET, 0, 0);
+    sfx_box_change(box, ZV_OFFSET, 0, 10000);
     sfx_box_change(box, ZV_DECAY, 0, 0.15);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
     sfx_box_change(box, ZV_RELEASE, 0, 0);
@@ -114,7 +114,7 @@ void snare_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_LOW, 0, 150);
     sfx_box_change(box, ZV_LFO_HIGH, 0, 0);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
-    sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_OFFSET);
+    sfx_box_change(box, ZV_LFO_ASSIGN, 1, LFO_TARGET_AMP);
     sfx_box_change(box, ZV_LFO_FUNC, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 5);
     sfx_box_change(box, ZV_LFO_LOW, 1, 10000);
