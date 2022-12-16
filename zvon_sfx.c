@@ -32,7 +32,8 @@ static void osc_init(struct osc_state *s) {
     s->params[OSC_FREQ] = 0;
     s->params[OSC_FMUL] = 1;
     s->params[OSC_WIDTH] = 0.5;
-    s->params[OSC_OFFSET] = 0.5;
+    s->params[OSC_OFFSET] = 1;
+    s->params[OSC_SET_LIN] = 1;
 }
 
 struct sfx_synth_state {
