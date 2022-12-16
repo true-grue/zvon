@@ -174,7 +174,6 @@ void seq_synth_preset(struct sfx_box *box) {
 int main(int argc, char **argv) {
     (void) argc;
     (void) argv;
-    fp = fopen("sfx_test.raw", "wb");
     mix_init(channels, CHANNELS);
     for (int i = 0; i < CHANNELS; i++) {
         chan_set_vol(&channels[i], 1);
@@ -201,6 +200,7 @@ int main(int argc, char **argv) {
     struct sfx_box *box5 = chan_push(&channels[3], &sfx_delay);
     sfx_box_change(box5, ZV_TIME, 0, 0.2);
     sfx_box_change(box4, ZV_VOLUME, 0, 0.1);
+    fp = fopen("sfx_test.raw", "wb");
     play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 2, 0.8);
     play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.8);
     play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 3, 0.8);
