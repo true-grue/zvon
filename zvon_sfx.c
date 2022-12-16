@@ -229,13 +229,15 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     for(int i = 0; i < OSC_PARAMS; i++) {
         s->lfo_params[s->remap[i]] = s->osc.params[i];
     }
-    if (s->is_glide_on) {
-        s->lfo_params[OSC_FREQ] = glide_next(&s->glide, s->lfo_params[OSC_FREQ]);
-    }
+    s->lfo_params[OSC_FREQ] = 0;
     for(int i = 0; i < SYNTH_LFOS; i++) {
         s->lfo_params[s->lfo_targets[i]] += lfo_next(&s->lfos[i]);
     }
-    s->lfo_params[OSC_FREQ] *= s->lfo_params[OSC_FMUL];
+    double f = s->osc.params[OSC_FREQ];
+    if (s->is_glide_on) {
+        f = glide_next(&s->glide, f);
+    }
+    s->lfo_params[OSC_FREQ] += f * s->lfo_params[OSC_FMUL];
     double y = s->lfo_params[OSC_AMP] * osc_next(&s->osc, s->lfo_params);
     return y * adsr_next(&s->adsr, s->is_sustain_on);
 }
