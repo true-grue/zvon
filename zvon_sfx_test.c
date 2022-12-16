@@ -81,8 +81,8 @@ void play_song(double song[][CHANNELS], int song_size, int num_chans, double vol
 }
 
 void bass_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_OSC_TYPE, 0, OSC_SQUARE);
-    sfx_box_change(box, ZV_OSC, OSC_WIDTH, 0);
+    sfx_box_change(box, ZV_TYPE, 0, OSC_SQUARE);
+    sfx_box_change(box, ZV_WIDTH, 0, 0);
     sfx_box_change(box, ZV_DECAY, 0, 0.3);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
     sfx_box_change(box, ZV_RELEASE, 0, 0);
@@ -101,10 +101,10 @@ void bass_drum_preset(struct sfx_box *box) {
 }
 
 void snare_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_OSC_TYPE, 0, OSC_SIN_BAND_NOISE);
-    sfx_box_change(box, ZV_OSC, OSC_SET_LIN, 1);
-    sfx_box_change(box, ZV_OSC, OSC_WIDTH, 10000);
-    sfx_box_change(box, ZV_OSC, OSC_OFFSET, 10000);
+    sfx_box_change(box, ZV_TYPE, 0, OSC_SIN_BAND_NOISE);
+    sfx_box_change(box, ZV_SET_LIN, 0, 1);
+    sfx_box_change(box, ZV_WIDTH, 0, 10000);
+    sfx_box_change(box, ZV_OFFSET, 0, 10000);
     sfx_box_change(box, ZV_DECAY, 0, 0.15);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
     sfx_box_change(box, ZV_RELEASE, 0, 0);
@@ -124,8 +124,8 @@ void snare_drum_preset(struct sfx_box *box) {
 }
 
 void bass_synth_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_OSC_TYPE, 0, OSC_SAW);
-    sfx_box_change(box, ZV_OSC, OSC_WIDTH, 0);
+    sfx_box_change(box, ZV_TYPE, 0, OSC_SAW);
+    sfx_box_change(box, ZV_WIDTH, 0, 0);
     sfx_box_change(box, ZV_DECAY, 0, 0.05);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0.3);
     sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_WIDTH);
@@ -141,10 +141,10 @@ double semi(double x) {
 }
 
 void seq_synth_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_OSC_TYPE, 0, OSC_PWM);
-    sfx_box_change(box, ZV_OSC, OSC_WIDTH, 0);
-    sfx_box_change(box, ZV_OSC, OSC_OFFSET, 1.7);
-    sfx_box_change(box, ZV_OSC, OSC_FMUL, 2);
+    sfx_box_change(box, ZV_TYPE, 0, OSC_PWM);
+    sfx_box_change(box, ZV_WIDTH, 0, 0);
+    sfx_box_change(box, ZV_OFFSET, 0, 1.7);
+    sfx_box_change(box, ZV_FMUL, 0, 2);
     sfx_box_change(box, ZV_DECAY, 0, 0.5);
     sfx_box_change(box, ZV_SUSTAIN, 0, 1);
     sfx_box_change(box, ZV_RELEASE, 0, 2.5);
