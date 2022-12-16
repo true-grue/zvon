@@ -112,13 +112,13 @@ void snare_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_FREQ2);
     sfx_box_change(box, ZV_LFO_TYPE, 0, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
-    sfx_box_change(box, ZV_LFO_LOW, 0, 150);
-    sfx_box_change(box, ZV_LFO_HIGH, 0, 0);
+    sfx_box_change(box, ZV_LFO_LOW, 0, 200);
+    sfx_box_change(box, ZV_LFO_HIGH, 0, -70);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, OSC_FREQ);
     sfx_box_change(box, ZV_LFO_TYPE, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 5);
-    sfx_box_change(box, ZV_LFO_LOW, 1, 10000);
+    sfx_box_change(box, ZV_LFO_LOW, 1, 9500);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 5000);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
 }
