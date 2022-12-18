@@ -99,7 +99,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         adsr_note_off(&s->adsr);
         break;
     case ZV_SET_GLIDE:
-        glide_set_source(&s->glide, s->osc.params[OSC_FREQ]);
+        glide_set_source(&s->glide, s->lfo_params[OSC_FREQ]);
         s->is_glide_on = val;
         break;
     case ZV_GLIDE_RATE:
@@ -226,10 +226,10 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
         s->lfo_params[s->lfo_targets[i]] += lfo_next(&s->lfos[i]);
     }
     double f = s->osc.params[OSC_FREQ];
-    if (s->is_glide_on) {
-        f = glide_next(&s->glide, f);
-    }
     s->lfo_params[OSC_FREQ] += f * s->lfo_params[OSC_FMUL];
+    if (s->is_glide_on) {
+        s->lfo_params[OSC_FREQ] = glide_next(&s->glide, s->lfo_params[OSC_FREQ]);
+    }
     double y = s->lfo_params[OSC_AMP] * osc_next(&s->osc, s->lfo_params);
     y *= adsr_next(&s->adsr, s->is_sustain_on);
     return s->is_mix_on ? y + l : y;
