@@ -5,10 +5,8 @@
 
 #include "zvon_mixer.h"
 
-void sfx_box_change(struct sfx_box *box, int param, int elem, double val);
-
 enum {
-    ZV_VOLUME,
+    ZV_VOLUME = SFX_BOX_VOLUME,
     ZV_TYPE,
     ZV_FREQ,
     ZV_FMUL,
@@ -38,6 +36,7 @@ enum {
     ZV_LFO_SEQ_SIZE,
     ZV_LFO_SET_LIN_SEQ,
     ZV_LFO_ASSIGN,
+    ZV_SET_MIX,
     ZV_TIME,
     ZV_LEVEL,
     ZV_FEEDBACK,

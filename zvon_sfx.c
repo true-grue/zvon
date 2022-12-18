@@ -3,18 +3,6 @@
 #include <math.h>
 #include "zvon_sfx.h"
 
-void sfx_box_change(struct sfx_box *box, int param, int elem, double val) {
-    switch (param) {
-    case ZV_VOLUME:
-        sfx_box_set_vol(box, val);
-        break;
-    default:
-        if (box->state) {
-            box->proto->change(box->state, param, elem, val);
-        }
-    }
-}
-
 struct osc_state {
     int type;
     double params[OSC_PARAMS];
@@ -47,6 +35,7 @@ struct sfx_synth_state {
     int is_sustain_on;
     struct glide_state glide;
     int is_glide_on;
+    int is_mix_on;
 };
 
 static void lfo_reset_remap(struct sfx_synth_state *s) {
@@ -65,6 +54,7 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     s->is_sustain_on = 0;
     glide_init(&s->glide);
     s->is_glide_on = 0;
+    s->is_mix_on = 0;
 }
 
 static void lfo_note_on(struct sfx_synth_state *s) {
@@ -182,6 +172,9 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         elem = limit(elem, 0, SYNTH_LFOS - 1);
         s->lfo_targets[elem] = limit(val, 0, OSC_PARAMS - 1);
         break;
+    case ZV_SET_MIX:
+        s->is_mix_on = val;
+        break;
     }
 }
 
@@ -225,7 +218,6 @@ static double osc_next(struct osc_state *s, double *params) {
 }
 
 static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
-    (void) l;
     for(int i = 0; i < OSC_PARAMS; i++) {
         s->lfo_params[s->remap[i]] = s->osc.params[i];
     }
@@ -239,7 +231,8 @@ static double sfx_synth_mono(struct sfx_synth_state *s, double l) {
     }
     s->lfo_params[OSC_FREQ] += f * s->lfo_params[OSC_FMUL];
     double y = s->lfo_params[OSC_AMP] * osc_next(&s->osc, s->lfo_params);
-    return y * adsr_next(&s->adsr, s->is_sustain_on);
+    y *= adsr_next(&s->adsr, s->is_sustain_on);
+    return s->is_mix_on ? y + l : y;
 }
 
 struct sfx_proto sfx_synth = {
