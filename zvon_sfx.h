@@ -36,6 +36,7 @@ enum {
     ZV_LFO_SEQ_SIZE,
     ZV_LFO_SET_LIN_SEQ,
     ZV_LFO_ASSIGN,
+    ZV_SET_FM,
     ZV_TIME,
     ZV_LEVEL,
     ZV_FEEDBACK,
