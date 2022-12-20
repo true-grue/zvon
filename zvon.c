@@ -231,7 +231,7 @@ double noise_lin_next(struct noise_state *s, double freq) {
         s->phase -= 1;
         s->state = xorshift(s->state);
         s->old_y = s->y;
-        s->y = s->state * (s->width * (1. / 4294967296));
+        s->y = s->width * (s->state * (1. / 4294967296));
     }
     return lerp(s->old_y, s->y, s->phase) - s->width * 0.5;
 }
@@ -241,7 +241,7 @@ double noise_next(struct noise_state *s, double freq) {
     if (s->phase >= 1) {
         s->phase -= 1;
         s->state = xorshift(s->state);
-        s->y = s->state * (s->width * (1. / 4294967296));
+        s->y = s->width * (s->state * (1. / 4294967296));
     }
     return s->y - s->width * 0.5;
 }
