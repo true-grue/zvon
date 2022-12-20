@@ -11,13 +11,11 @@ FILE *fp;
 struct chan_state channels[CHANNELS];
 
 void zv_note_on(int chan, double freq) {
-    struct sfx_box *box = &channels[chan].stack[0];
-    sfx_box_change(box, ZV_NOTE_ON, 0, freq);
+    chan_change(&channels[chan], ZV_NOTE_ON, 0, freq);
 }
 
 void zv_note_off(int chan) {
-    struct sfx_box *box = &channels[chan].stack[0];
-    sfx_box_change(box, ZV_NOTE_OFF, 0, 0);
+    chan_change(&channels[chan], ZV_NOTE_OFF, 0, 0);
 }
 
 void play(int num_samples, double vol) {
@@ -100,27 +98,33 @@ void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
 }
 
-void snare_drum_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_TYPE, 0, OSC_SIN_BAND_NOISE);
+void snare_drum_1_preset(struct sfx_box *box) {
+    sfx_box_change(box, ZV_TYPE, 0, OSC_BAND_NOISE);
     sfx_box_change(box, ZV_SET_LIN, 0, 1);
     sfx_box_change(box, ZV_WIDTH, 0, 10000);
     sfx_box_change(box, ZV_OFFSET, 0, 10000);
     sfx_box_change(box, ZV_DECAY, 0, 0.15);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
     sfx_box_change(box, ZV_RELEASE, 0, 0);
-    sfx_box_change(box, ZV_REMAP, OSC_FREQ, OSC_FREQ2);
-    sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_FREQ2);
-    sfx_box_change(box, ZV_LFO_TYPE, 0, LFO_SAW);
-    sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
-    sfx_box_change(box, ZV_LFO_LOW, 0, 200);
-    sfx_box_change(box, ZV_LFO_HIGH, 0, -70);
-    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, OSC_FREQ);
     sfx_box_change(box, ZV_LFO_TYPE, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 5);
     sfx_box_change(box, ZV_LFO_LOW, 1, 9500);
     sfx_box_change(box, ZV_LFO_HIGH, 1, 5000);
     sfx_box_change(box, ZV_LFO_SET_LOOP, 1, 0);
+}
+
+void snare_drum_2_preset(struct sfx_box *box) {
+    sfx_box_change(box, ZV_TYPE, 0, OSC_SIN);
+    sfx_box_change(box, ZV_DECAY, 0, 0.15);
+    sfx_box_change(box, ZV_SUSTAIN, 0, 0);
+    sfx_box_change(box, ZV_RELEASE, 0, 0);
+    sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_FREQ);
+    sfx_box_change(box, ZV_LFO_TYPE, 0, LFO_SAW);
+    sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
+    sfx_box_change(box, ZV_LFO_LOW, 0, 200);
+    sfx_box_change(box, ZV_LFO_HIGH, 0, -70);
+    sfx_box_change(box, ZV_LFO_SET_LOOP, 0, 0);
 }
 
 void bass_synth_preset(struct sfx_box *box) {
@@ -149,7 +153,6 @@ void seq_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_SUSTAIN, 0, 1);
     sfx_box_change(box, ZV_RELEASE, 0, 2.5);
     sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_FMUL);
-
     sfx_box_change(box, ZV_LFO_TYPE, 0, LFO_SEQ);
     sfx_box_change(box, ZV_LFO_FREQ, 0, 10);
     sfx_box_change(box, ZV_LFO_LOW, 0, 0);
@@ -162,7 +165,6 @@ void seq_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_LFO_SEQ_POS, 0, 2);
     sfx_box_change(box, ZV_LFO_SEQ_VAL, 0, semi(12));
     sfx_box_change(box, ZV_LFO_SEQ_SIZE, 0, 3);
-
     sfx_box_change(box, ZV_LFO_ASSIGN, 1, OSC_WIDTH);
     sfx_box_change(box, ZV_LFO_TYPE, 1, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 1, 10);
@@ -189,9 +191,12 @@ int main(int argc, char **argv) {
     struct sfx_box *box1 = chan_push(&channels[0], &sfx_synth);
     bass_drum_preset(box1);
     sfx_box_change(box1, ZV_VOLUME, 0, 0.25);
-    struct sfx_box *box2 = chan_push(&channels[1], &sfx_synth);
-    snare_drum_preset(box2);
-    sfx_box_change(box2, ZV_VOLUME, 0, 0.25);
+    struct sfx_box *box2_1 = chan_push(&channels[1], &sfx_synth);
+    snare_drum_1_preset(box2_1);
+    sfx_box_change(box2_1, ZV_VOLUME, 0, 0.5);
+    struct sfx_box *box2_2 = chan_push(&channels[1], &sfx_synth);
+    snare_drum_2_preset(box2_2);
+    sfx_box_change(box2_2, ZV_VOLUME, 0, 0.3);
     struct sfx_box *box3 = chan_push(&channels[2], &sfx_synth);
     bass_synth_preset(box3);
     sfx_box_change(box3, ZV_VOLUME, 0, 0.2);
