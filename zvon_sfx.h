@@ -57,11 +57,11 @@ enum {
 
 enum {
     OSC_FREQ,
+    OSC_FMUL,
     OSC_AMP,
     OSC_WIDTH,
     OSC_OFFSET,
     OSC_SET_LIN,
-    OSC_FMUL,
     OSC_PARAMS
 };
 

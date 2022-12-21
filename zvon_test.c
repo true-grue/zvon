@@ -181,9 +181,9 @@ int main(int argc, char **argv) {
         chan_set_vol(&channels[i], 1);
     }
     chan_set_on(&channels[0], 1);
-    chan_set_on(&channels[1], 0);
-    chan_set_on(&channels[2], 0);
-    chan_set_on(&channels[3], 0);
+    chan_set_on(&channels[1], 1);
+    chan_set_on(&channels[2], 1);
+    chan_set_on(&channels[3], 1);
     chan_set_pan(&channels[0], -0.5);
     chan_set_pan(&channels[1], 0.5);
     chan_set_pan(&channels[2], 0);
