@@ -23,7 +23,7 @@ enum {
     ZV_SUSTAIN,
     ZV_RELEASE,
     ZV_SET_SUSTAIN,
-    ZV_REMAP,
+    ZV_REMAP_FREQ,
     ZV_LFO_TYPE,
     ZV_LFO_FREQ,
     ZV_LFO_LOW,
@@ -57,11 +57,11 @@ enum {
 
 enum {
     OSC_FREQ,
-    OSC_FMUL,
     OSC_AMP,
     OSC_WIDTH,
     OSC_OFFSET,
     OSC_SET_LIN,
+    OSC_FMUL,
     OSC_PARAMS
 };
 
