@@ -148,7 +148,7 @@ void seq_synth_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_TYPE, 0, OSC_PWM);
     sfx_box_change(box, ZV_WIDTH, 0, 0);
     sfx_box_change(box, ZV_OFFSET, 0, 1.7);
-    sfx_box_change(box, ZV_FMUL, 0, 2);
+    sfx_box_change(box, ZV_FMUL, OSC_FREQ, 2);
     sfx_box_change(box, ZV_DECAY, 0, 0.5);
     sfx_box_change(box, ZV_SUSTAIN, 0, 1);
     sfx_box_change(box, ZV_RELEASE, 0, 2.5);
@@ -203,7 +203,7 @@ int main(int argc, char **argv) {
     struct sfx_box *box4 = chan_push(&channels[3], &sfx_synth);
     seq_synth_preset(box4);
     struct sfx_box *box5 = chan_push(&channels[3], &sfx_delay);
-    sfx_box_change(box5, ZV_TIME, 0, 0.2);
+    sfx_box_change(box5, ZV_DELAY_TIME, 0, 0.2);
     sfx_box_change(box4, ZV_VOLUME, 0, 0.1);
     fp = fopen("sfx_test.raw", "wb");
     play_song(song, (sizeof(song) / sizeof(song[0])) / 2, 2, 0.8);
