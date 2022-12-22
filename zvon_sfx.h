@@ -61,7 +61,6 @@ enum {
     OSC_AMP,
     OSC_WIDTH,
     OSC_OFFSET,
-    OSC_SET_LIN,
     OSC_PARAMS
 };
 
