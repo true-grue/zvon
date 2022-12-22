@@ -81,9 +81,9 @@ void play_song(double song[][CHANNELS], int song_size, int num_chans, double vol
 void bass_drum_preset(struct sfx_box *box) {
     sfx_box_change(box, ZV_TYPE, 0, OSC_SQUARE);
     sfx_box_change(box, ZV_WIDTH, 0, 0);
-    sfx_box_change(box, ZV_DECAY, 0, 0.3);
+    sfx_box_change(box, ZV_DECAY, 0, 0.2);
     sfx_box_change(box, ZV_SUSTAIN, 0, 0);
-    sfx_box_change(box, ZV_RELEASE, 0, 0);
+    sfx_box_change(box, ZV_RELEASE, 0, 0.01);
     sfx_box_change(box, ZV_LFO_ASSIGN, 0, OSC_FREQ);
     sfx_box_change(box, ZV_LFO_TYPE, 0, LFO_SAW);
     sfx_box_change(box, ZV_LFO_FREQ, 0, 25);
@@ -99,8 +99,7 @@ void bass_drum_preset(struct sfx_box *box) {
 }
 
 void snare_drum_1_preset(struct sfx_box *box) {
-    sfx_box_change(box, ZV_TYPE, 0, OSC_BAND_NOISE);
-    sfx_box_change(box, ZV_SET_LIN, 0, 1);
+    sfx_box_change(box, ZV_TYPE, 0, OSC_LIN_BAND_NOISE);
     sfx_box_change(box, ZV_WIDTH, 0, 10000);
     sfx_box_change(box, ZV_OFFSET, 0, 10000);
     sfx_box_change(box, ZV_DECAY, 0, 0.15);
@@ -190,7 +189,10 @@ int main(int argc, char **argv) {
     chan_set_pan(&channels[3], 0);
     struct sfx_box *box1 = chan_push(&channels[0], &sfx_synth);
     bass_drum_preset(box1);
-    sfx_box_change(box1, ZV_VOLUME, 0, 0.25);
+    struct sfx_box *box1_1 = chan_push(&channels[0], &sfx_filter);
+    sfx_box_change(box1_1, ZV_FILTER_MODE, 0, FILTER_HP);
+    sfx_box_change(box1_1, ZV_FILTER_WIDTH, 0, 0.8);
+    sfx_box_change(box1_1, ZV_VOLUME, 0, 1.7);
     struct sfx_box *box2_1 = chan_push(&channels[1], &sfx_synth);
     snare_drum_1_preset(box2_1);
     sfx_box_change(box2_1, ZV_VOLUME, 0, 0.5);
