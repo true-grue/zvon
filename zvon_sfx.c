@@ -7,7 +7,6 @@ struct osc_state {
     int type;
     double params[OSC_PARAMS];
     struct phasor_state phasor1;
-    struct phasor_state phasor2;
     struct noise_state noise1;
 };
 
@@ -19,7 +18,6 @@ static void osc_init(struct osc_state *s) {
     s->params[OSC_WIDTH] = 0.5;
     s->params[OSC_OFFSET] = 1;
     phasor_init(&s->phasor1);
-    phasor_init(&s->phasor2);
     noise_init(&s->noise1);
 }
 

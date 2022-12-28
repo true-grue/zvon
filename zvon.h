@@ -13,7 +13,6 @@
 #endif
 
 int sec(double t);
-double midi_freq(int m);
 double limit(double x, double low, double high);
 double lerp(double x, double y, double a);
 double dsf(double phase, double mod, double width);
