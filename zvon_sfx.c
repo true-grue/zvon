@@ -52,7 +52,6 @@ static void lfo_note_on(struct sfx_synth_state *s) {
 }
 
 static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, double val) {
-    (void) elem;
     switch (param) {
     case ZV_TYPE:
         s->osc.type = val;

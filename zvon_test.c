@@ -191,7 +191,7 @@ int main(int argc, char **argv) {
     bass_drum_preset(box1);
     struct sfx_box *box1_1 = chan_push(&channels[0], &sfx_filter);
     sfx_box_change(box1_1, ZV_FILTER_MODE, 0, FILTER_HP);
-    sfx_box_change(box1_1, ZV_FILTER_WIDTH, 0, 0.8);
+    sfx_box_change(box1_1, ZV_FILTER_WIDTH, 0, 0.85);
     sfx_box_change(box1_1, ZV_VOLUME, 0, 1.7);
     struct sfx_box *box2_1 = chan_push(&channels[1], &sfx_synth);
     snare_drum_1_preset(box2_1);
