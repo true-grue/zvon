@@ -27,16 +27,8 @@ double dsf2(double phase, double mod, double width) {
     return n / (1 + width * (width - 2 * cos(mphase)));
 }
 
-double saw(double phase, double width) {
-    return dsf(phase, 1, width);
-}
-
-double square(double phase, double width) {
-    return dsf(phase, 2, width);
-}
-
 double pwm(double phase, double offset, double width) {
-    return saw(phase, width) - saw(phase + offset, width);
+    return dsf(phase, 1, width) - dsf(phase + offset, 1, width);
 }
 
 static double xorshift(unsigned int x) {

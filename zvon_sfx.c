@@ -31,6 +31,7 @@ struct sfx_synth_state {
     struct glide_state glide;
     int is_glide_on;
     int is_fm_on;
+    struct filter_state amp_lp;
 };
 
 static void sfx_synth_init(struct sfx_synth_state *s) {
@@ -43,6 +44,7 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     glide_init(&s->glide);
     s->is_glide_on = 0;
     s->is_fm_on = 0;
+    filter_init(&s->amp_lp);
 }
 
 static void lfo_note_on(struct sfx_synth_state *s) {
@@ -71,7 +73,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         }
         break;
     case ZV_AMP:
-        s->osc.params[OSC_AMP] = val;
+        s->osc.params[OSC_AMP] = filter_lp_next(&s->amp_lp, val, 1000 / SR);
         break;
     case ZV_WIDTH:
         s->osc.params[OSC_WIDTH] = val;
@@ -165,9 +167,9 @@ static double osc_next(struct osc_state *s, double freq, double width, double of
     case OSC_SIN:
         return sin(phasor_next(&s->phasor1, freq));
     case OSC_SAW:
-        return saw(phasor_next(&s->phasor1, freq), w);
+        return dsf(phasor_next(&s->phasor1, freq), 1, w);
     case OSC_SQUARE:
-        return square(phasor_next(&s->phasor1, freq), w);
+        return dsf(phasor_next(&s->phasor1, freq), 2, w);
     case OSC_DSF:
         return dsf(phasor_next(&s->phasor1, freq), offset, w);
     case OSC_DSF2:

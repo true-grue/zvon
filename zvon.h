@@ -17,8 +17,6 @@ double limit(double x, double low, double high);
 double lerp(double x, double y, double a);
 double dsf(double phase, double mod, double width);
 double dsf2(double phase, double mod, double width);
-double saw(double phase, double width);
-double square(double phase, double width);
 double pwm(double phase, double offset, double width);
 double softclip(double x, double gain);
 
