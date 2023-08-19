@@ -31,7 +31,6 @@ struct sfx_synth_state {
     struct glide_state glide;
     int is_glide_on;
     int is_fm_on;
-    struct filter_state amp_lp;
 };
 
 static void sfx_synth_init(struct sfx_synth_state *s) {
@@ -44,7 +43,6 @@ static void sfx_synth_init(struct sfx_synth_state *s) {
     glide_init(&s->glide);
     s->is_glide_on = 0;
     s->is_fm_on = 0;
-    filter_init(&s->amp_lp);
 }
 
 static void lfo_note_on(struct sfx_synth_state *s) {
@@ -73,7 +71,7 @@ static void sfx_synth_change(struct sfx_synth_state *s, int param, int elem, dou
         }
         break;
     case ZV_AMP:
-        s->osc.params[OSC_AMP] = filter_lp_next(&s->amp_lp, val, 1000 / SR);
+        s->osc.params[OSC_AMP] = val;
         break;
     case ZV_WIDTH:
         s->osc.params[OSC_WIDTH] = val;
