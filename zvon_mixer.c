@@ -72,7 +72,7 @@ void mix_init(struct chan_state *chans, int num_chans) {
     }
 }
 double mix_process(struct chan_state *chans, int num_chans, double vol, float *samps, int num_samps) {
-    double max_sample = 0;
+    double max_samp = 0;
     for (; num_samps; num_samps--, samps += 2) {
         double left = 0, right = 0;
         for (int i = 0; i < num_chans; i++) {
@@ -86,9 +86,9 @@ double mix_process(struct chan_state *chans, int num_chans, double vol, float *s
         }
         samps[0] = vol * left;
         samps[1] = vol * right;
-        max_sample = MAX(max_sample, MAX(fabs(samps[0]), fabs(samps[1])));
+        max_samp = MAX(max_samp, MAX(fabs(samps[0]), fabs(samps[1])));
     }
-    return max_sample;
+    return max_samp;
 }
 
 void sfx_box_change(struct sfx_box *box, int param, int elem, double val) {
